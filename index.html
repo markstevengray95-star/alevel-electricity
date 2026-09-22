@@ -11,7 +11,7 @@
   <meta name="description" content="Interactive AQA A-level Physics 7408 Section 3.5 Electricity teaching, simulation, practical and assessment app.">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="styles.css?v=1">
-  <link rel="stylesheet" href="electricity.css?v=1">
+  <link rel="stylesheet" href="electricity.css?v=2">\n  <link rel="stylesheet" href="textbook.css?v=2">
 </head>
 <body>
 <header class="topbar">
@@ -22,7 +22,7 @@
     </div>
     <div class="pills">
       <span class="pill">AQA 3.5 aligned</span>
-      <span class="pill">11 sequenced lessons</span>
+      <span class="pill">11 sequenced lessons</span>\n      <span class="pill">8 textbook chapters</span>
       <span class="pill">6 interactive models</span>
     </div>
   </div>
@@ -54,7 +54,7 @@
   </section>
 
   <nav class="main-nav compact-nav" aria-label="Main navigation">
-    <button class="nav-button active" data-view="course">Learn</button>
+    <button class="nav-button active" data-view="course">Learn</button>\n    <button class="nav-button" data-view="textbook">Textbook</button>
     <button class="nav-button" data-view="lab">Simulations</button>
     <button class="nav-button" data-view="formula">Formula Coach</button>
     <button class="nav-button" data-view="practical">Practicals</button>
@@ -70,6 +70,17 @@
     <div class="course-layout">
       <div class="course-list" id="courseList"></div>
       <article class="panel lesson-panel" id="lessonPanel"></article>
+    </div>
+  </section>
+
+  <section class="view" id="view-textbook">
+    <div class="section-head">
+      <div><span class="eyebrow">Full teaching notes</span><h2>AQA Electricity textbook</h2></div>
+      <p class="muted">Detailed explanations, original teaching diagrams, equations, worked examples, practical guidance and exam traps for every point in AQA 7408 section 3.5.</p>
+    </div>
+    <div class="textbook-layout">
+      <aside class="textbook-sidebar" id="textbookList" aria-label="Textbook chapters"></aside>
+      <article class="panel textbook-article" id="textbookArticle"></article>
     </div>
   </section>
 
@@ -215,7 +226,7 @@
   </section>
 </main>
 
-<footer class="wrap footer">Educational teaching model aligned to AQA A-level Physics 7408 section 3.5 · Electricity Learning Lab v1.</footer>
+<footer class="wrap footer">Educational teaching model aligned to AQA A-level Physics 7408 section 3.5 · Electricity Learning Lab v2 · expanded textbook edition.</footer>
 <script src="electricity-data.js?v=1"></script>
 <script src="app.js?v=1"></script>
 </body>
