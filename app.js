@@ -47,42 +47,83 @@
   function renderLesson(){
     const l=D.lessons.find(x=>x.id===selectedLesson)||D.lessons[0];
     const done=saved.completed.includes(l.id);
+    const textbookMap={
+      "current-charge":"basics","pd-resistance":"basics",
+      "iv-ohmic":"iv","iv-nonohmic":"iv",
+      "resistivity":"resistivity","temperature":"resistivity",
+      "series":"circuits","parallel-power":"circuits",
+      "potential-divider":"divider","emf-internal":"emf","synthesis":"circuits"
+    };
+    const chapter=textbookMap[l.id]||"basics";
+    const stages=[["retrieval","1","Retrieval"],["learn","2","Learn"],["equations","3","Equations"],["worked","4","Worked example"],["apply","5","Apply"],["simulate","6","Simulate"],["exam","7","Exam check"],["exit","8","Exit"]];
     $("lessonPanel").innerHTML=`
       <span class="eyebrow">${l.code}</span>
       <h2>${esc(l.title)}</h2>
       <p class="lesson-lead">${esc(l.lead)}</p>
       <div class="keyword-row">${l.keywords.map(k=>`<span class="keyword-chip">${esc(k)}</span>`).join("")}</div>
-      <div class="lesson-grid">
-        <section class="lesson-block remember"><h3>Learning objectives</h3><ul>${l.objectives.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></section>
-        <section class="lesson-block"><h3>Key equations</h3>${l.formulas.map(x=>`<span class="formula-chip">${esc(x)}</span>`).join("")}</section>
+      <div class="lesson-overview-grid">
+        <section class="lesson-focus-card remember"><h3>Learning objectives</h3><ul>${l.objectives.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></section>
+        <section class="lesson-focus-card"><h3>Lesson success route</h3><p>Retrieve prior knowledge → build the model → use equations → apply it → test it in the simulation → answer in AQA language.</p><p class="lesson-progress-note">${done?"This lesson is marked complete.":"Complete the stages below, then mark the lesson complete."}</p></section>
       </div>
-      <h3>Retrieval starter</h3>
-      <div class="teaching-stack">${l.retrieval.map((r,i)=>`
-        <div class="teach-section"><strong>${i+1}. ${esc(r[0])}</strong>
-        <button class="text-button" data-reveal="r-${i}">Reveal answer</button>
-        <div class="answer-reveal" id="r-${i}">${esc(r[1])}</div></div>`).join("")}</div>
-      <h3>Core teaching</h3>
-      <div class="teaching-stack">${l.teach.map(t=>`<section class="teach-section"><h3>${esc(t[0])}</h3><p>${esc(t[1])}</p></section>`).join("")}</div>
-      <div class="lesson-grid">
-        <section class="lesson-block worked-block"><h3>Worked example</h3><p><strong>${esc(l.worked.q)}</strong></p><ol>${l.worked.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol></section>
-        <section class="lesson-block"><h3>Student activity</h3><p>${esc(l.activity)}</p><textarea class="student-answer" placeholder="Write your working / explanation here..."></textarea></section>
+      <div class="lesson-textbook-link">
+        <div><h3>Read the linked textbook chapter</h3><p>Use the full explanation, original diagrams, AQA specification checklist and extended worked example before or during this lesson.</p></div>
+        <button class="button" data-open-textbook="${chapter}">Open textbook</button>
       </div>
-      <section class="lesson-block mission-card">
-        <span class="eyebrow">Simulation mission</span><h3>${esc(l.mission.goal)}</h3>
-        <ol>${l.mission.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol>
-        <p><strong>Conclude:</strong> ${esc(l.mission.conclusion)}</p>
+      <nav class="lesson-journey" aria-label="Lesson stages">
+        ${stages.map(s=>`<button class="lesson-stage-button" data-scroll-stage="${s[0]}"><span>Stage ${s[1]}</span>${s[2]}</button>`).join("")}
+      </nav>
+
+      <section class="lesson-stage" id="lesson-stage-retrieval">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">1</span><h3>Retrieval starter</h3></div>
+        <div class="teaching-stack">${l.retrieval.map((r,i)=>`
+          <div class="teach-section"><strong>${i+1}. ${esc(r[0])}</strong>
+          <button class="text-button" data-reveal="r-${i}">Reveal answer</button>
+          <div class="answer-reveal" id="r-${i}">${esc(r[1])}</div></div>`).join("")}</div>
       </section>
-      <div class="lesson-grid">
-        <section class="lesson-block exam-box"><h3>AQA exam check</h3><p>${esc(l.check[0])}</p>
-          <div class="choice-list">${l.check[1].map((o,i)=>`<button class="choice-button lesson-check" data-answer="${i}" data-correct="${l.check[2]}" data-explain="${esc(l.check[3])}">${esc(o)}</button>`).join("")}</div>
-          <div class="feedback hidden" id="lessonFeedback"></div>
-        </section>
-        <section class="lesson-block warning"><h3>Exam language & pitfalls</h3><p><strong>Tip:</strong> ${esc(l.examTip)}</p><p><strong>Common mistake:</strong> ${esc(l.misconception)}</p></section>
-      </div>
-      <section class="lesson-block"><h3>Exit question</h3><p>${esc(l.exit)}</p><textarea class="student-answer" placeholder="Answer in full A-level physics language..."></textarea></section>
+
+      <section class="lesson-stage" id="lesson-stage-learn">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">2</span><h3>Core teaching</h3></div>
+        <div class="teaching-stack">${l.teach.map((t,i)=>`<section class="teach-section"><span class="eyebrow">Concept ${i+1}</span><h3>${esc(t[0])}</h3><p>${esc(t[1])}</p></section>`).join("")}</div>
+      </section>
+
+      <section class="lesson-stage" id="lesson-stage-equations">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">3</span><h3>Equation focus</h3></div>
+        <section class="lesson-block"><p class="muted small">Know what every symbol means, use SI units before substitution, and check that the result is physically sensible.</p>${l.formulas.map(x=>`<span class="formula-chip">${esc(x)}</span>`).join("")}</section>
+      </section>
+
+      <section class="lesson-stage" id="lesson-stage-worked">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">4</span><h3>Worked example</h3></div>
+        <section class="lesson-block worked-block"><p><strong>${esc(l.worked.q)}</strong></p><ol>${l.worked.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol></section>
+      </section>
+
+      <section class="lesson-stage" id="lesson-stage-apply">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">5</span><h3>Apply the idea</h3></div>
+        <section class="lesson-block"><p>${esc(l.activity)}</p><textarea class="student-answer" placeholder="Write your calculation, reasoning or explanation here..."></textarea></section>
+      </section>
+
+      <section class="lesson-stage" id="lesson-stage-simulate">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">6</span><h3>Simulation mission</h3></div>
+        <section class="lesson-block mission-card"><h3>${esc(l.mission.goal)}</h3><ol>${l.mission.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol><p><strong>Conclude:</strong> ${esc(l.mission.conclusion)}</p><button class="button primary" data-open-sim="${l.sim}">Open linked simulation</button></section>
+      </section>
+
+      <section class="lesson-stage" id="lesson-stage-exam">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">7</span><h3>AQA exam check</h3></div>
+        <div class="lesson-grid">
+          <section class="lesson-block exam-box"><p>${esc(l.check[0])}</p>
+            <div class="choice-list">${l.check[1].map((o,i)=>`<button class="choice-button lesson-check" data-answer="${i}" data-correct="${l.check[2]}" data-explain="${esc(l.check[3])}">${esc(o)}</button>`).join("")}</div>
+            <div class="feedback hidden" id="lessonFeedback"></div>
+          </section>
+          <section class="lesson-block warning"><h3>Exam language & pitfalls</h3><p><strong>Exam tip:</strong> ${esc(l.examTip)}</p><p><strong>Common mistake:</strong> ${esc(l.misconception)}</p></section>
+        </div>
+      </section>
+
+      <section class="lesson-stage" id="lesson-stage-exit">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">8</span><h3>Exit question</h3></div>
+        <section class="lesson-block"><p>${esc(l.exit)}</p><textarea class="student-answer" placeholder="Answer in full A-level physics language..."></textarea></section>
+      </section>
       <div class="lesson-actions">
-        <button class="button primary" data-open-sim="${l.sim}">Open linked simulation</button>
-        <button class="button" data-complete="${l.id}">${done?"Mark incomplete":"Mark lesson complete"}</button>
+        <button class="button" data-open-textbook="${chapter}">Reopen textbook chapter</button>
+        <button class="button primary" data-complete="${l.id}">${done?"Mark incomplete":"Mark lesson complete"}</button>
       </div>`;
   }
 
@@ -367,6 +408,14 @@
     if(t.dataset.reveal){$(t.dataset.reveal).classList.toggle("visible");return;}
     if(t.dataset.complete){
       const id=t.dataset.complete,idx=saved.completed.indexOf(id);if(idx>=0)saved.completed.splice(idx,1);else saved.completed.push(id);save();renderCourse();updateProgress();return;
+    }
+    if(t.dataset.scrollStage){
+      const el=$("lesson-stage-"+t.dataset.scrollStage);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});return;
+    }
+    if(t.dataset.openTextbook){
+      setView("textbook");
+      if(window.ElectricityTextbook) window.ElectricityTextbook.open(t.dataset.openTextbook);
+      return;
     }
     if(t.dataset.openSim){selectSim(t.dataset.openSim);setView("lab");return;}
     if(t.dataset.sim){selectSim(t.dataset.sim);return;}
