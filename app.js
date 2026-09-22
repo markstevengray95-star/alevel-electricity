@@ -14,6 +14,7 @@
   let saved={completed:[],quizBest:0};
   try{ saved={...saved,...JSON.parse(localStorage.getItem(storeKey)||"{}")}; }catch(e){}
   let selectedLesson=D.lessons[0].id;
+  let activeLessonStage="retrieval";
   let activeSim="charge";
   let simValues={};
   let snapshots=[];
@@ -44,6 +45,39 @@
     renderLesson();
   }
 
+  const lessonStages=[
+    ["retrieval","1","Retrieval"],
+    ["learn","2","Learn"],
+    ["equations","3","Equations"],
+    ["worked","4","Worked example"],
+    ["apply","5","Apply"],
+    ["simulate","6","Simulate"],
+    ["exam","7","Exam check"],
+    ["exit","8","Exit"]
+  ];
+
+  function activateLessonStage(stage,scroll=false){
+    const idx=lessonStages.findIndex(s=>s[0]===stage);
+    if(idx<0)return;
+    activeLessonStage=stage;
+    $$(".lesson-stage").forEach(el=>{el.hidden=el.dataset.stage!==stage;el.classList.toggle("active",el.dataset.stage===stage);});
+    $$(".lesson-stage-button").forEach(b=>{
+      const on=b.dataset.lessonTab===stage;
+      b.classList.toggle("active",on);
+      b.setAttribute("aria-selected",on?"true":"false");
+      b.tabIndex=on?0:-1;
+    });
+    const title=$("lessonStageTitle"),fill=$("lessonStageFill"),prev=$("lessonStagePrev"),next=$("lessonStageNext");
+    if(title) title.textContent=`Stage ${idx+1} of ${lessonStages.length} · ${lessonStages[idx][2]}`;
+    if(fill) fill.style.width=`${((idx+1)/lessonStages.length)*100}%`;
+    if(prev) prev.disabled=idx===0;
+    if(next){next.disabled=idx===lessonStages.length-1;next.textContent=idx===lessonStages.length-1?"Lesson stages complete":"Next stage →";}
+    if(scroll){
+      const shell=document.querySelector(".lesson-stage-shell");
+      if(shell) shell.scrollIntoView({behavior:"smooth",block:"start"});
+    }
+  }
+
   function renderLesson(){
     const l=D.lessons.find(x=>x.id===selectedLesson)||D.lessons[0];
     const done=saved.completed.includes(l.id);
@@ -55,59 +89,68 @@
       "potential-divider":"divider","emf-internal":"emf","synthesis":"circuits"
     };
     const chapter=textbookMap[l.id]||"basics";
-    const stages=[["retrieval","1","Retrieval"],["learn","2","Learn"],["equations","3","Equations"],["worked","4","Worked example"],["apply","5","Apply"],["simulate","6","Simulate"],["exam","7","Exam check"],["exit","8","Exit"]];
     $("lessonPanel").innerHTML=`
       <span class="eyebrow">${l.code}</span>
       <h2>${esc(l.title)}</h2>
       <p class="lesson-lead">${esc(l.lead)}</p>
       <div class="keyword-row">${l.keywords.map(k=>`<span class="keyword-chip">${esc(k)}</span>`).join("")}</div>
+
       <div class="lesson-overview-grid">
         <section class="lesson-focus-card remember"><h3>Learning objectives</h3><ul>${l.objectives.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></section>
-        <section class="lesson-focus-card"><h3>Lesson success route</h3><p>Retrieve prior knowledge → build the model → use equations → apply it → test it in the simulation → answer in AQA language.</p><p class="lesson-progress-note">${done?"This lesson is marked complete.":"Complete the stages below, then mark the lesson complete."}</p></section>
+        <section class="lesson-focus-card"><h3>Lesson route</h3><p>Work through eight short stages. Each tab has one clear purpose, so students are never faced with one long page.</p><p class="lesson-progress-note">${done?"This lesson is marked complete.":"Use Next stage to move through the lesson, then mark it complete."}</p></section>
       </div>
+
       <div class="lesson-textbook-link">
-        <div><h3>Read the linked textbook chapter</h3><p>Use the full explanation, original diagrams, AQA specification checklist and extended worked example before or during this lesson.</p></div>
+        <div><h3>Linked textbook chapter</h3><p>Open the full explanation, diagrams, AQA specification checklist and extended worked example whenever more support is needed.</p></div>
         <button class="button" data-open-textbook="${chapter}">Open textbook</button>
       </div>
-      <nav class="lesson-journey" aria-label="Lesson stages">
-        ${stages.map(s=>`<button class="lesson-stage-button" data-scroll-stage="${s[0]}"><span>Stage ${s[1]}</span>${s[2]}</button>`).join("")}
-      </nav>
 
-      <section class="lesson-stage" id="lesson-stage-retrieval">
-        <div class="lesson-stage-heading"><span class="lesson-stage-index">1</span><h3>Retrieval starter</h3></div>
+      <div class="lesson-stage-shell">
+        <div class="lesson-stage-progress-row">
+          <strong id="lessonStageTitle">Stage 1 of 8 · Retrieval</strong>
+          <span class="muted small">Tabbed lesson sequence</span>
+        </div>
+        <div class="lesson-stage-track"><div class="lesson-stage-fill" id="lessonStageFill"></div></div>
+        <nav class="lesson-journey lesson-tabs" role="tablist" aria-label="Lesson stages">
+          ${lessonStages.map((s,i)=>`<button class="lesson-stage-button ${s[0]===activeLessonStage?"active":""}" role="tab" aria-selected="${s[0]===activeLessonStage}" data-lesson-tab="${s[0]}"><span>Stage ${s[1]}</span>${s[2]}</button>`).join("")}
+        </nav>
+      </div>
+
+      <section class="lesson-stage" data-stage="retrieval" id="lesson-stage-retrieval" role="tabpanel">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">1</span><div><h3>Retrieval starter</h3><p class="muted small">Activate prior knowledge before new teaching.</p></div></div>
         <div class="teaching-stack">${l.retrieval.map((r,i)=>`
           <div class="teach-section"><strong>${i+1}. ${esc(r[0])}</strong>
           <button class="text-button" data-reveal="r-${i}">Reveal answer</button>
           <div class="answer-reveal" id="r-${i}">${esc(r[1])}</div></div>`).join("")}</div>
       </section>
 
-      <section class="lesson-stage" id="lesson-stage-learn">
-        <div class="lesson-stage-heading"><span class="lesson-stage-index">2</span><h3>Core teaching</h3></div>
+      <section class="lesson-stage" data-stage="learn" id="lesson-stage-learn" role="tabpanel">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">2</span><div><h3>Core teaching</h3><p class="muted small">Build the physics model in small conceptual chunks.</p></div></div>
         <div class="teaching-stack">${l.teach.map((t,i)=>`<section class="teach-section"><span class="eyebrow">Concept ${i+1}</span><h3>${esc(t[0])}</h3><p>${esc(t[1])}</p></section>`).join("")}</div>
       </section>
 
-      <section class="lesson-stage" id="lesson-stage-equations">
-        <div class="lesson-stage-heading"><span class="lesson-stage-index">3</span><h3>Equation focus</h3></div>
-        <section class="lesson-block"><p class="muted small">Know what every symbol means, use SI units before substitution, and check that the result is physically sensible.</p>${l.formulas.map(x=>`<span class="formula-chip">${esc(x)}</span>`).join("")}</section>
+      <section class="lesson-stage" data-stage="equations" id="lesson-stage-equations" role="tabpanel">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">3</span><div><h3>Equation focus</h3><p class="muted small">Connect symbols, units and physical meaning before calculating.</p></div></div>
+        <section class="lesson-block"><p>Use SI units before substitution and check that the final value is physically sensible.</p>${l.formulas.map(x=>`<span class="formula-chip">${esc(x)}</span>`).join("")}</section>
       </section>
 
-      <section class="lesson-stage" id="lesson-stage-worked">
-        <div class="lesson-stage-heading"><span class="lesson-stage-index">4</span><h3>Worked example</h3></div>
+      <section class="lesson-stage" data-stage="worked" id="lesson-stage-worked" role="tabpanel">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">4</span><div><h3>Worked example</h3><p class="muted small">Follow a complete model solution, not just the final answer.</p></div></div>
         <section class="lesson-block worked-block"><p><strong>${esc(l.worked.q)}</strong></p><ol>${l.worked.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol></section>
       </section>
 
-      <section class="lesson-stage" id="lesson-stage-apply">
-        <div class="lesson-stage-heading"><span class="lesson-stage-index">5</span><h3>Apply the idea</h3></div>
+      <section class="lesson-stage" data-stage="apply" id="lesson-stage-apply" role="tabpanel">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">5</span><div><h3>Apply the idea</h3><p class="muted small">Students now produce their own reasoning or calculation.</p></div></div>
         <section class="lesson-block"><p>${esc(l.activity)}</p><textarea class="student-answer" placeholder="Write your calculation, reasoning or explanation here..."></textarea></section>
       </section>
 
-      <section class="lesson-stage" id="lesson-stage-simulate">
-        <div class="lesson-stage-heading"><span class="lesson-stage-index">6</span><h3>Simulation mission</h3></div>
+      <section class="lesson-stage" data-stage="simulate" id="lesson-stage-simulate" role="tabpanel">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">6</span><div><h3>Simulation mission</h3><p class="muted small">Test the relationship by changing variables and explaining the evidence.</p></div></div>
         <section class="lesson-block mission-card"><h3>${esc(l.mission.goal)}</h3><ol>${l.mission.steps.map(s=>`<li>${esc(s)}</li>`).join("")}</ol><p><strong>Conclude:</strong> ${esc(l.mission.conclusion)}</p><button class="button primary" data-open-sim="${l.sim}">Open linked simulation</button></section>
       </section>
 
-      <section class="lesson-stage" id="lesson-stage-exam">
-        <div class="lesson-stage-heading"><span class="lesson-stage-index">7</span><h3>AQA exam check</h3></div>
+      <section class="lesson-stage" data-stage="exam" id="lesson-stage-exam" role="tabpanel">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">7</span><div><h3>AQA exam check</h3><p class="muted small">Check the idea using concise exam-style language.</p></div></div>
         <div class="lesson-grid">
           <section class="lesson-block exam-box"><p>${esc(l.check[0])}</p>
             <div class="choice-list">${l.check[1].map((o,i)=>`<button class="choice-button lesson-check" data-answer="${i}" data-correct="${l.check[2]}" data-explain="${esc(l.check[3])}">${esc(o)}</button>`).join("")}</div>
@@ -117,14 +160,22 @@
         </div>
       </section>
 
-      <section class="lesson-stage" id="lesson-stage-exit">
-        <div class="lesson-stage-heading"><span class="lesson-stage-index">8</span><h3>Exit question</h3></div>
+      <section class="lesson-stage" data-stage="exit" id="lesson-stage-exit" role="tabpanel">
+        <div class="lesson-stage-heading"><span class="lesson-stage-index">8</span><div><h3>Exit question</h3><p class="muted small">Finish by explaining the key idea independently.</p></div></div>
         <section class="lesson-block"><p>${esc(l.exit)}</p><textarea class="student-answer" placeholder="Answer in full A-level physics language..."></textarea></section>
+        <div class="lesson-finish-box"><strong>Ready to move on?</strong><span>Check you can explain the lesson objective without notes and use the key equation correctly.</span></div>
       </section>
+
+      <div class="lesson-stage-controls">
+        <button class="button" id="lessonStagePrev" data-stage-move="-1">← Previous stage</button>
+        <button class="button primary" id="lessonStageNext" data-stage-move="1">Next stage →</button>
+      </div>
+
       <div class="lesson-actions">
         <button class="button" data-open-textbook="${chapter}">Reopen textbook chapter</button>
         <button class="button primary" data-complete="${l.id}">${done?"Mark incomplete":"Mark lesson complete"}</button>
       </div>`;
+    requestAnimationFrame(()=>activateLessonStage(activeLessonStage,false));
   }
 
   function simDefaults(id){
@@ -404,13 +455,16 @@
     const t=e.target.closest("button");if(!t)return;
     if(t.dataset.view){setView(t.dataset.view);return;}
     if(t.dataset.jump){setView(t.dataset.jump);return;}
-    if(t.dataset.lesson){selectedLesson=t.dataset.lesson;renderCourse();return;}
+    if(t.dataset.lesson){selectedLesson=t.dataset.lesson;activeLessonStage="retrieval";renderCourse();return;}
     if(t.dataset.reveal){$(t.dataset.reveal).classList.toggle("visible");return;}
     if(t.dataset.complete){
       const id=t.dataset.complete,idx=saved.completed.indexOf(id);if(idx>=0)saved.completed.splice(idx,1);else saved.completed.push(id);save();renderCourse();updateProgress();return;
     }
-    if(t.dataset.scrollStage){
-      const el=$("lesson-stage-"+t.dataset.scrollStage);if(el)el.scrollIntoView({behavior:"smooth",block:"start"});return;
+    if(t.dataset.lessonTab){activateLessonStage(t.dataset.lessonTab,true);return;}
+    if(t.dataset.stageMove){
+      const current=lessonStages.findIndex(s=>s[0]===activeLessonStage);
+      const next=clamp(current+Number(t.dataset.stageMove),0,lessonStages.length-1);
+      activateLessonStage(lessonStages[next][0],true);return;
     }
     if(t.dataset.openTextbook){
       setView("textbook");
