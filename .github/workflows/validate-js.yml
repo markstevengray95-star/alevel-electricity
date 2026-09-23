@@ -1,0 +1,31 @@
+name: Validate JavaScript
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check electricity-data.js
+          node --check app.js
+          node --check textbook-data.js
+          node --check textbook.js
+          node --check enhanced-sim.js
+          node --check circuit-sandbox.js
+          node --check simulation-depth.js
+          node --check real-lab.js
+          node --check real-lab-wiring.js
