@@ -1,0 +1,66 @@
+name: Browser smoke test
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser test dependencies
+        run: |
+          npm install
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Load deployed enhancement modules locally
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text()
+          modules=[
+            'learning-enrichment-v2.js?v=1',
+            'simulation-performance-v3.js?v=1',
+            'equation-breakdown-v2.js?v=1',
+            'lesson-automark-v3.js?v=1',
+            'learning-enrichment-v3.js?v=1',
+            'simulation-smooth-v4.js?v=1',
+            'question-automark-v4.js?v=1',
+            'integration-fixes-v5.js?v=1',
+          ]
+          inject='\n'+'\n'.join(f'<script src="{m}"></script>' for m in modules)+'\n'
+          if 'equation-breakdown-v2.js' not in s:
+              s=s.replace('</body>', inject+'</body>')
+          elif 'integration-fixes-v5.js' not in s:
+              s=s.replace('</body>', '<script src="integration-fixes-v5.js?v=1"></script>\n</body>')
+          p.write_text(s)
+          PY
+      - name: Start static app
+        run: |
+          npx serve . -l 4173 > /tmp/electricity-serve.log 2>&1 &
+          echo $! > /tmp/electricity-serve.pid
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:4173 >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/electricity-serve.log
+          exit 1
+      - name: Run Chromium end-to-end checks
+        env:
+          APP_URL: http://127.0.0.1:4173
+        run: node tests/browser-smoke-v2.mjs
+      - name: Show server log on failure
+        if: failure()
+        run: cat /tmp/electricity-serve.log || true
