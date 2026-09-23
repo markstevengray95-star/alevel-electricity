@@ -59,6 +59,10 @@ jobs:
         env:
           APP_URL: http://127.0.0.1:4173
         run: node tests/browser-smoke-v2.mjs
+      - name: Run extended-response checks
+        env:
+          APP_URL: http://127.0.0.1:4173
+        run: node tests/extended-response-smoke.mjs
       - name: Show server log on failure
         if: failure()
         run: cat /tmp/electricity-serve.log || true
