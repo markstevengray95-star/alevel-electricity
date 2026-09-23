@@ -6,24 +6,24 @@
     .replace(/[÷]/g,'/')
     .replace(/[⋅∙]/g,'·');
 
-  document.addEventListener('click',e=>{
-    const target=e.target.closest?.(equationSelector);
-    if(!target)return;
+  function prepareTarget(target){
     const original=target.textContent;
     const normalized=normalizeOperators(original);
     if(normalized===original)return;
     target.textContent=normalized;
-    queueMicrotask(()=>{ if(target.isConnected) target.textContent=original; });
+    // Restore after the current click/key event has completely finished so the
+    // equation-coach bubble listener reads the normalised form first.
+    setTimeout(()=>{ if(target.isConnected) target.textContent=original; },0);
+  }
+
+  document.addEventListener('click',e=>{
+    const target=e.target.closest?.(equationSelector);
+    if(target)prepareTarget(target);
   },true);
 
   document.addEventListener('keydown',e=>{
     if(e.key!=='Enter'&&e.key!==' ')return;
     const target=e.target.closest?.(equationSelector);
-    if(!target)return;
-    const original=target.textContent;
-    const normalized=normalizeOperators(original);
-    if(normalized===original)return;
-    target.textContent=normalized;
-    queueMicrotask(()=>{ if(target.isConnected) target.textContent=original; });
+    if(target)prepareTarget(target);
   },true);
 })();
