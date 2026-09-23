@@ -1,68 +1,304 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#07111f">
-<title>AQA A-level Measurements & Errors Learning Lab</title>
-<meta name="description" content="Interactive AQA A-level Physics 7408 Section 3.1 Measurements and their errors teaching, simulation, practical and assessment app.">
-<link rel="stylesheet" href="styles.css?v=6">
-<style>
-.textbook-layout{display:grid;grid-template-columns:280px 1fr;gap:16px}.textbook-sidebar{display:grid;gap:8px;align-content:start}.chapter-button,.ext-button{width:100%;text-align:left;border:1px solid var(--border);background:#0b1a2d;border-radius:12px;padding:11px;color:var(--text);cursor:pointer}.chapter-button.active,.ext-button.active{border-color:var(--accent);background:#102943}.textbook-article{padding:22px}.textbook-article section{margin:16px 0;padding:14px;border:1px solid var(--border);border-radius:14px;background:#0a182a}.equation-button{display:inline-flex;border:1px solid #3b6486;background:#071522;color:#dff4ff;border-radius:9px;padding:7px 10px;font-family:Consolas,monospace;font-weight:800;cursor:pointer}.formula-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:14px}.formula-card{padding:14px;border:1px solid var(--border);border-radius:14px;background:#0c1a2c}.practical-tabs,.mastery-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}.bench-grid,.extended-layout{display:grid;grid-template-columns:1fr 1fr;gap:16px}.bench-box{padding:18px}.bench-visual{height:260px;border:1px solid var(--border);border-radius:15px;background:#06111e;position:relative;overflow:hidden;margin:12px 0}.bench-visual canvas{width:100%;height:100%;display:block}.result-list{display:grid;gap:7px;margin-top:10px}.result-row{padding:8px 10px;border:1px solid var(--border);background:#071522;border-radius:9px;font-size:.82rem}.extended-list{padding:16px}.extended-main{padding:18px}.extended-main textarea{width:100%;min-height:180px;border:1px solid var(--border);border-radius:10px;background:#06111e;color:var(--text);padding:10px;resize:vertical}.modal{position:fixed;inset:0;background:rgba(2,8,14,.8);display:grid;place-items:center;padding:18px;z-index:100}.modal-card{width:min(720px,100%);max-height:86vh;overflow:auto;padding:22px;position:relative}.modal-close{position:absolute;right:14px;top:10px;background:transparent;border:0;color:var(--text);font-size:2rem}.large-graph{height:330px}.compact{font-size:.86rem}@media(max-width:900px){.textbook-layout,.bench-grid,.extended-layout{grid-template-columns:1fr}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <meta name="application-name" content="AQA Measurements & Errors Learning Lab">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" href="physics-icon.svg" type="image/svg+xml">
+  <title>AQA A-level Measurements & Errors Learning Lab</title>
+  <meta name="description" content="Interactive AQA A-level Physics 7408 Section 3.1 Measurements and their errors teaching, simulation, data-analysis and assessment app.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
-<header class="topbar"><div class="wrap topbar-inner"><div><div class="brand">Measurements & Errors Learning Lab</div><div class="muted small">AQA A-level Physics 7408 · Section 3.1 · Measurements and their errors</div></div><div class="pills"><span class="pill">AQA 3.1 aligned</span><span class="pill">8 sequenced lessons</span><span class="pill">8 textbook chapters</span><span class="pill">6 interactive models</span><span class="pill">Data Lab</span><span class="pill">Exam Practice+</span></div></div></header>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div>
+      <div class="brand">Measurements & Errors Learning Lab</div>
+      <div class="muted small">AQA A-level Physics 7408 · Section 3.1 · Measurements and their errors</div>
+    </div>
+    <div class="pills">
+      <span class="pill">AQA 3.1 aligned</span>
+      <span class="pill">8 sequenced lessons</span>
+      <span class="pill">8 textbook chapters</span>
+      <span class="pill">6 interactive models</span>
+      <span class="pill">Data Analysis Lab</span>
+      <span class="pill">Exam Practice+</span>
+    </div>
+  </div>
+</header>
+
 <main class="wrap main">
-<section class="hero grid"><article class="panel hero-copy"><span class="eyebrow">AQA 3.1 · Measurements and their errors</span><h1>Measure carefully, quantify uncertainty, and decide what the data really supports.</h1><p>A guided course for SI units, prefixes, measurement quality, random and systematic errors, uncertainty calculations, error bars, graph gradients, significant figures and order-of-magnitude estimation. It keeps the same classroom workflow as your Electricity Learning Lab.</p><div class="hero-actions"><button class="button primary" data-jump="course">Start guided course</button><button class="button" data-jump="lab">Open simulation lab</button><button class="button" data-jump="practical">Open data lab</button></div></article><aside class="panel progress-card"><div class="progress-head"><strong>Section 3.1 progress</strong><span id="progressText">0 / 8 complete</span></div><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><div class="stat-grid"><div><strong>8</strong><span>sequenced lessons</span></div><div><strong>6</strong><span>interactive models</span></div><div><strong>8</strong><span>formula tools</span></div><div><strong>3</strong><span>data benches</span></div></div><button class="text-button" id="resetProgress">Reset progress</button></aside></section>
-<nav class="main-nav"><button class="nav-button active" data-view="course">Learn</button><button class="nav-button" data-view="textbook">Textbook</button><button class="nav-button" data-view="lab">Simulations</button><button class="nav-button" data-view="formula">Formula Coach</button><button class="nav-button" data-view="practical">Practicals</button><button class="nav-button" data-view="mastery">Mastery Hub</button><button class="nav-button" data-view="spec">AQA Map</button></nav>
-<section class="view active-view" id="view-course"><div class="section-head"><div><span class="eyebrow">Guided learning</span><h2>Full AQA 3.1 teaching sequence</h2></div><p class="muted">Retrieval → core teaching → worked example → interactive mission → exam check → exit question.</p></div><div class="course-layout"><div class="course-list" id="courseList"></div><article class="panel lesson-panel" id="lessonPanel"></article></div></section>
-<section class="view" id="view-textbook"><div class="section-head"><div><span class="eyebrow">Full teaching notes</span><h2>AQA Measurements & Errors textbook</h2></div><p class="muted">Detailed explanations, equations, worked examples, practical guidance and exam traps.</p></div><div class="textbook-layout"><aside class="textbook-sidebar" id="textbookList"></aside><article class="panel textbook-article" id="textbookArticle"></article></div></section>
-<section class="view" id="view-lab"><div class="section-head"><div><span class="eyebrow">Learning through models</span><h2>Interactive measurement simulation lab</h2></div><p class="muted">Change instrument resolution, random scatter, zero error, uncertainty size and graph uncertainty.</p></div><div class="sim-tabs" id="simTabs"></div><div class="lab-layout"><div><div class="viewer-wrap"><canvas id="simCanvas"></canvas><div class="viewer-badges"><span class="pill">AQA 3.1</span><span class="pill" id="simState">Live model</span></div><div class="drag-hint">Use the controls · mouse and touch friendly</div></div><div class="viewer-controls"><button class="button" id="resetSim">Reset model</button><button class="button" id="snapshotSim">Capture reading</button><button class="button" id="predictPrompt">Prediction prompt</button></div><div class="snapshot-tray" id="snapshotTray"></div></div><aside class="lab-side"><article class="panel sim-heading"><span class="eyebrow" id="simCode"></span><h2 id="simTitle"></h2><p class="muted" id="simSubtitle"></p></article><article class="panel mission-card"><span class="eyebrow">Linked learning mission</span><h3 id="missionGoal"></h3><ol id="missionSteps"></ol><p class="small"><strong>Conclude:</strong> <span id="missionConclusion"></span></p></article><div class="control-stack" id="simControls"></div><div class="equation" id="simReadout"></div><article class="panel learning-box simple-box"><h3>What the model shows</h3><p id="simpleExplain"></p></article><article class="panel learning-box exam-box"><h3>AQA exam language</h3><p id="examExplain"></p></article><article class="panel learning-box mistake-box"><h3>Common mistake</h3><p id="mistakeExplain"></p></article></aside></div></section>
-<section class="view" id="view-formula"><div class="section-head"><div><span class="eyebrow">Calculation support</span><h2>Formula coach</h2></div><p class="muted">Choose an uncertainty relationship, enter values and follow the working.</p></div><div class="formula-layout"><article class="panel pad"><label class="field"><span>Choose calculation</span><select id="formulaSelect"></select></label><div class="control-stack" id="formulaInputs"></div></article><article class="panel pad"><h3>Worked result</h3><div class="worked" id="formulaWorking"></div></article></div><div class="formula-cards" id="formulaCards"></div></section>
-<section class="view" id="view-practical"><div class="section-head"><div><span class="eyebrow">Practical skills</span><h2>Measurement & data-analysis benches</h2></div><p class="muted">Practice repeats, instrument choice, uncertainty, graphs and evaluation.</p></div><div class="practical-tabs"><button class="button primary" data-practical="timing">Timing & repeats</button><button class="button" data-practical="micro">Micrometer</button><button class="button" data-practical="graph">Graph uncertainty</button></div><div id="practicalBody"></div></section>
-<section class="view" id="view-mastery"><div class="section-head"><div><span class="eyebrow">Retrieval + exam language</span><h2>Measurements mastery hub</h2></div><p class="muted">Instant-feedback questions plus transparent extended-response mark-point matching.</p></div><div class="mastery-tabs"><button class="button primary" data-mastery="quiz">Quick questions</button><button class="button" data-mastery="extended">Extended response</button></div><div id="masteryQuiz"><div class="quiz-layout"><aside class="panel quiz-stats pad"><div class="progress-head"><span>Question</span><strong id="quizProgress">1 / 16</strong></div><div class="progress-track"><div class="progress-fill" id="quizProgressFill"></div></div><div class="stat-grid"><div><strong id="quizScore">0</strong><span>correct</span></div><div><strong id="quizStreak">0</strong><span>streak</span></div></div><button class="button" id="restartQuiz">Restart practice</button></aside><article class="panel quiz-main pad"><span class="eyebrow" id="quizSpec"></span><h3 id="quizQuestion"></h3><div class="choice-list" id="quizChoices"></div><div class="feedback hidden" id="quizFeedback"></div><button class="button primary hidden" id="nextQuestion">Next question</button></article></div></div><div id="masteryExtended" class="hidden"><div class="extended-layout"><aside class="panel extended-list" id="extendedList"></aside><article class="panel extended-main"><span class="eyebrow" id="extendedCode"></span><h3 id="extendedQuestion"></h3><p class="muted" id="extendedPrompt"></p><textarea id="extendedAnswer" placeholder="Write your answer here..."></textarea><div class="button-row"><button class="button primary" id="markExtended">Auto-mark answer</button><button class="button" id="clearExtended">Clear</button></div><div class="feedback hidden" id="extendedFeedback"></div></article></div></div></section>
-<section class="view" id="view-spec"><div class="section-head"><div><span class="eyebrow">Specification coverage</span><h2>AQA 7408 section 3.1 checklist</h2></div><p class="muted">3.1.1–3.1.3 plus the linked mathematical and practical skills.</p></div><div class="spec-grid" id="specGrid"></div></section>
-</main><footer class="wrap footer">Educational teaching model aligned to AQA A-level Physics 7408 section 3.1 · Measurements & Errors Learning Lab.</footer>
-<div class="modal hidden" id="equationModal"><div class="modal-card panel"><button class="modal-close" id="equationClose">×</button><span class="eyebrow">Equation breakdown</span><h2 id="equationTitle"></h2><div id="equationBody"></div></div></div>
-<script>
-(()=>{'use strict';const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],fmt=(v,d=3)=>Number(v).toFixed(d).replace(/\.0+$|(?<=\.[0-9]*?)0+$/,''),pct=(a,b)=>b?Math.abs(a/b)*100:0,rand=()=>{let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
-const eq={pct:{t:'Percentage uncertainty',f:'percentage uncertainty = (Δx / x) × 100%',m:'Compares the uncertainty with the size of the measured value.',e:'0.002/0.840 × 100 = 0.238% ≈ 0.24%.'},comb:{t:'Combining uncertainties',f:'sum/difference: add absolute Δ · product/quotient: add % · power n: multiply % by |n|',m:'The rule depends on the operation used to make the final quantity.',e:'Q = ab²/c with 2%, 3%, 4% gives 2 + 2×3 + 4 = 12%.'},grad:{t:'Gradient uncertainty',f:'Δm ≈ (mmax − mmin)/2',m:'Use steepest and shallowest acceptable lines consistent with the error bars.',e:'2.55 and 2.25 gives Δm = 0.15.'},mean:{t:'Mean and half-range',f:'mean = Σx/n · half-range = (xmax − xmin)/2',m:'Repeats reveal scatter; the mean estimates the central value.',e:'9.8, 10.2, 10.0 gives mean 10.0 and half-range 0.2.'},prefix:{t:'Prefix conversion',f:'(10ᵃ unit)ⁿ = 10ᵃⁿ unitⁿ',m:'Squared and cubed units also square or cube the conversion factor.',e:'3.2 mm² = 3.2 × (10⁻³)² m² = 3.2 × 10⁻⁶ m².'},order:{t:'Order of magnitude',f:'order of magnitude ≈ nearest power of 10',m:'Use simple assumptions to identify the physical scale of a quantity.',e:'3 × 10² m³ is order 10² m³.'}};
-const lessons=[
-['3.1.1','SI base units and physical quantities','Use kg, m, s, mol, K and A confidently; recognise derived units.','A measurement is a number with a unit. AQA expects confident use of the required base units and of derived SI units.','prefix','72 km h⁻¹ = 72 000 m / 3600 s = 20 m s⁻¹.','Why is the newton a derived rather than base unit?'],
-['3.1.1','Prefixes, standard form and conversions','Use T, G, M, k, c, m, μ, n, p and f; convert areas and volumes safely.','Prefixes are powers of ten. When a unit is squared or cubed, the conversion factor is also squared or cubed.','prefix','4.0 cm³ = 4.0 × (10⁻²)³ m³ = 4.0 × 10⁻⁶ m³.','Convert 250 μm to metres in standard form.'],
-['3.1.2','Accuracy, precision and resolution','Distinguish accuracy, precision, repeatability, reproducibility and resolution.','Accuracy is closeness to the true value; precision is closeness of repeated values. Resolution is the smallest detectable change.','pct','A precise cluster can still be inaccurate if all readings have a systematic offset.','A set is tightly clustered but all 0.30 mm high. Describe it.'],
-['3.1.2','Random and systematic errors','Identify error patterns and choose the correct improvement.','Random errors vary unpredictably and are reduced by repeats/averaging. Systematic errors shift readings consistently and need calibration, zero correction or redesign.','mean','9.8, 10.2, 10.0, 10.1, 9.9 cm has mean 10.0 cm and half-range 0.2 cm.','Why do 20 repeats not fix a +0.50 g zero error?'],
-['3.1.2','Absolute, fractional and percentage uncertainty','Convert between absolute, fractional and percentage uncertainty and quote sensible significant figures.','Absolute uncertainty has the unit of the measurement. Fractional and percentage uncertainties do not. The value should not imply more precision than the uncertainty supports.','pct','L = 0.840 ± 0.002 m gives 0.238% ≈ 0.24%.','Which is relatively better: 5.0 ± 0.1 cm or 50.0 ± 0.1 cm?'],
-['3.1.2','Combining uncertainties','Apply the AQA rules for +, −, ×, ÷ and powers.','For sums/differences add absolute uncertainties. For products/quotients add percentage uncertainties. For powers multiply percentage uncertainty by the power.','comb','If r = 6.0 ± 0.1 cm, area πr² has twice the percentage uncertainty in r.','Q = xy²; x 2%, y 3%. What is % uncertainty in Q?'],
-['3.1.2','Error bars and gradient uncertainty','Represent uncertainty on graphs and estimate maximum/minimum gradients.','Error bars show point uncertainty. Draw best, steepest and shallowest acceptable lines; use their range to estimate gradient uncertainty.','grad','m = 2.40, mmax = 2.55, mmin = 2.25 gives m = 2.40 ± 0.15.','Why do larger error bars usually increase gradient uncertainty?'],
-['3.1.3','Orders of magnitude and estimation','Estimate approximate quantities and use estimates to test plausibility.','Good estimates use transparent assumptions and sensible scales, not false precision.','order','A classroom about 10 m × 10 m × 3 m has volume ≈ 3×10² m³, order 10² m³.','Estimate the order of magnitude of heartbeats in one year.']];
-const vocab=[['mass','length','time','amount of substance','temperature','current'],['tera','giga','mega','kilo','centi','milli','micro','nano','pico','femto'],['accuracy','precision','repeatability','reproducibility','resolution'],['random error','systematic error','zero error','calibration','scatter'],['absolute uncertainty','fractional uncertainty','percentage uncertainty','significant figures'],['propagation','sum','difference','product','quotient','power'],['error bar','best fit','maximum gradient','minimum gradient','intercept'],['order of magnitude','estimate','assumption','Fermi estimate']];
-const sims=[
-{id:'res',code:'3.1.2',title:'Resolution & Instruments',sub:'See how instrument resolution limits reported values.',goal:'Compare true value, displayed value and resolution.',steps:['Change the object length.','Change the instrument resolution.','Watch the displayed value round to the available scale.'],con:'Higher resolution reveals smaller changes, but does not automatically guarantee accuracy.',controls:[['value','Object length / mm',25,5,80,.1],['res','Resolution / mm',1,.01,2,.01]],simple:'Resolution is the smallest change the instrument can distinguish.',exam:'State the resolution and quote a precision consistent with the instrument.',mistake:'Extra display digits do not prove greater accuracy.'},
-{id:'err',code:'3.1.2',title:'Random vs Systematic',sub:'Separate scatter from offset.',goal:'Recognise the signature of random and systematic error.',steps:['Increase random scatter.','Add a systematic offset.','Increase repeats and compare the mean.'],con:'Repeats reduce the influence of random scatter, but a systematic offset remains.',controls:[['true','True value',10,5,15,.1],['scatter','Random scatter',.3,0,1,.05],['offset','Systematic offset',0,-2,2,.1],['n','Repeats',8,3,30,1]],simple:'Random error changes direction; systematic error shifts the set.',exam:'Repeats target random error; calibration/zero checks target systematic error.',mistake:'A precise cluster can still be inaccurate.'},
-{id:'unc',code:'3.1.2',title:'Uncertainty Explorer',sub:'Compare absolute and percentage uncertainty.',goal:'Build intuition for relative uncertainty.',steps:['Hold Δx fixed.','Increase x.','Compare the percentage uncertainty.'],con:'The same absolute uncertainty matters less, relatively, for a larger measurement.',controls:[['x','Measured value',20,1,100,1],['dx','Absolute uncertainty',.5,.01,5,.01]],simple:'Percentage uncertainty scales uncertainty relative to the measured value.',exam:'Use (Δx/x)×100%.',mistake:'Percentage uncertainty has no unit.'},
-{id:'prop',code:'3.1.2',title:'Propagation Builder',sub:'Apply the correct uncertainty rule.',goal:'Compare multiplication and power rules.',steps:['Change A and B percentage uncertainties.','Change the power on A.','Predict the output before reading it.'],con:'Products add percentage uncertainty; powers multiply it by the power.',controls:[['ua','A uncertainty %',2,.1,10,.1],['ub','B uncertainty %',3,.1,10,.1],['power','Power on A',2,1,4,1]],simple:'Propagation depends on the mathematical operation.',exam:'For xⁿ, multiply percentage uncertainty by |n|.',mistake:'Do not use one rule for every operation.'},
-{id:'graph',code:'3.1.2',title:'Error Bars & Gradients',sub:'Explore limiting acceptable lines.',goal:'See why uncertainty creates a range of possible gradients.',steps:['Increase y uncertainty.','Increase scatter.','Compare best, maximum and minimum gradients.'],con:'Larger uncertainty bars permit a wider acceptable gradient range.',controls:[['slope','True slope',2,.5,4,.1],['yunc','Y uncertainty',.3,.05,1,.05],['scatter','Scatter',.15,0,.7,.05]],simple:'Error bars represent uncertainty in plotted values.',exam:'Use steepest and shallowest acceptable lines for gradient uncertainty.',mistake:'Do not calculate a best-fit gradient from two neighbouring points.'},
-{id:'est',code:'3.1.3',title:'Estimation Challenge',sub:'Build an order-of-magnitude estimate.',goal:'Check scale before chasing precision.',steps:['Adjust events per minute.','Adjust duration.','Compare the total with the nearest power of ten.'],con:'A useful estimate makes its assumptions clear and gives a sensible physical scale.',controls:[['rate','Events per minute',70,10,150,5],['hours','Hours per day',24,1,24,1],['days','Days',365,30,365,5]],simple:'Orders of magnitude describe scale, not false precision.',exam:'State assumptions and a sensible order of magnitude.',mistake:'Do not quote an estimate to many significant figures.'}];
-const formulas=[['pct','Percentage uncertainty',[['x','Measured value',20],['dx','Absolute uncertainty',.5]],v=>[(v.dx/v.x*100),'%',`(${v.dx}/${v.x})×100`]],['frac','Fractional uncertainty',[['x','Measured value',20],['dx','Absolute uncertainty',.5]],v=>[(v.dx/v.x),'',`${v.dx}/${v.x}`]],['abs','Absolute uncertainty from %',[['x','Measured value',20],['p','Percentage uncertainty',2.5]],v=>[(v.x*v.p/100),'same unit',`${v.x}×${v.p}/100`]],['add','Add/subtract uncertainties',[['a','ΔA',.1],['b','ΔB',.2]],v=>[(Math.abs(v.a)+Math.abs(v.b)),'absolute',`${v.a}+${v.b}`]],['mult','Multiply/divide uncertainties',[['a','A uncertainty %',2],['b','B uncertainty %',3]],v=>[(Math.abs(v.a)+Math.abs(v.b)),'%',`${v.a}%+${v.b}%`]],['power','Power uncertainty',[['p','Input uncertainty %',3],['n','Power',2]],v=>[(Math.abs(v.p*v.n)),'%',`|${v.n}|×${v.p}%`]],['half','Half-range',[['min','Minimum',9.8],['max','Maximum',10.2]],v=>[(Math.abs(v.max-v.min)/2),'',`(${v.max}-${v.min})/2`]],['grad','Gradient uncertainty',[['min','Minimum gradient',2.25],['max','Maximum gradient',2.55]],v=>[(Math.abs(v.max-v.min)/2),'gradient units',`(${v.max}-${v.min})/2`]]];
-const quiz=[['3.1.1','Which is an SI base unit?',['newton','joule','kelvin','volt'],2,'Kelvin is a base unit for temperature.'],['3.1.1','Micro (μ) means:',['10⁻³','10⁻⁶','10⁻⁹','10⁶'],1,'Micro means 10⁻⁶.'],['3.1.1','1 cm² equals:',['10⁻² m²','10⁻⁴ m²','10² m²','10⁻⁶ m²'],1,'Square the 10⁻² conversion factor.'],['3.1.2','Tightly clustered repeats mainly indicate high:',['accuracy','precision','resolution','reproducibility'],1,'Clustering describes precision.'],['3.1.2','Best way to reduce random error:',['repeat and average','apply zero correction','change unit','round more'],0,'Repeats reduce random scatter.'],['3.1.2','A balance reads +0.4 g when empty. This is:',['random error','systematic zero error','high resolution','percentage uncertainty'],1,'A fixed zero offset is systematic.'],['3.1.2','Resolution means:',['closeness to true value','smallest detectable change','spread of repeats','largest possible reading'],1,'Resolution is the smallest detectable change.'],['3.1.2','20.0 ± 0.5 cm has % uncertainty:',['0.4%','2.5%','4%','25%'],1,'0.5/20×100 = 2.5%.'],['3.1.2','For A=B+C, combine uncertainty by:',['adding %','adding absolute uncertainties','multiplying uncertainties','averaging'],1,'Sums and differences use absolute uncertainties.'],['3.1.2','For A=BC, combine uncertainty by:',['adding absolute','adding %','subtracting %','multiplying %'],1,'Products and quotients use percentage uncertainties.'],['3.1.2','If r has 3% uncertainty, r² has:',['1.5%','3%','6%','9%'],2,'Power 2 doubles the percentage uncertainty.'],['3.1.2','Error bars represent:',['gradient','uncertainty in plotted values','true value exactly','number of repeats only'],1,'Error bars show point uncertainty.'],['3.1.2','Larger error bars usually make the allowed gradient range:',['narrower','unchanged','wider','zero'],2,'More point uncertainty allows more limiting lines.'],['3.1.2','12.347 ± 0.6 cm is sensibly quoted as:',['12.347 ± 0.6','12.3 ± 0.6','12 ± 0.60000','12.347000 ± 0.6'],1,'Match the measured value to the uncertainty decimal place.'],['3.1.3','Nearest order to 4×10⁵ is:',['10⁴','10⁵','10⁶','10¹⁰'],1,'It lies on the 10⁵ scale.'],['3.1.3','Estimate before a detailed calculation mainly to:',['avoid units','gain sig figs','check plausibility and scale','remove uncertainty'],2,'Estimation spots power-of-ten and plausibility errors.']].map((q,i)=>({id:i,s:q[0],q:q[1],c:q[2],a:q[3],w:q[4]}));
-const ext=[{c:'6 marks · measurement',q:'Explain how to obtain a reliable wire diameter with a micrometer and a realistic uncertainty.',p:'Write a practical-method answer.',k:[['zero','zero error|zero check'],['repeat','repeat|several readings|multiple readings'],['position','different positions|along the wire'],['orientation','different orientations|rotate'],['mean','mean|average'],['uncertainty','uncertainty|half range|resolution'],['pressure','ratchet|overtighten|pressure']]},{c:'6 marks · graph',q:'Explain how error bars can be used to estimate uncertainty in a straight-line gradient.',p:'Include best fit and limiting lines.',k:[['bars','error bars|uncertainty bars'],['best','best fit'],['steep','steepest|maximum gradient'],['shallow','shallowest|minimum gradient'],['consistent','within.*bars|through.*bars|consistent with'],['gradient','gradient|rise.*run'],['range','half.*difference|half.*range']]},{c:'4 marks · propagation',q:'Q = ab²/c. Explain how to find the percentage uncertainty in Q.',p:'State the rule clearly.',k:[['a','uncertainty.*a|a.*uncertainty'],['b','twice|2.*b|b.*2'],['c','uncertainty.*c|c.*uncertainty'],['add','add|sum|total']]}];
-const specs=[['3.1.1','Use of SI units and prefixes',['Base units kg, m, s, mol, K, A','Derived units','T, G, M, k, c, m, μ, n, p, f','Unit conversion and standard form']],['3.1.2','Limitations of physical measurements',['Random and systematic errors','Accuracy, precision, repeatability, reproducibility, resolution','Absolute, fractional, percentage uncertainty','Combining uncertainties','Significant figures','Error bars','Gradient and intercept uncertainty']],['3.1.3','Estimation',['Orders of magnitude','Approximate values','Derived/Fermi-style estimates']],['PS 2.3 / 3.3','Evaluation skills',['Identify error types','Suggest reductions/removal','Discuss margins of error','Judge data using uncertainty']],['MS 1.4 / 1.5','Mathematical skills',['Estimate to nearest order','Combine uncertainties','Use percentages and standard form']],['Practical foundation','Across the course',['Choose suitable instruments','Use repeated readings','Check zero/calibration','Present tables and graphs','Evaluate evidence']]];
-let completed=new Set(JSON.parse(localStorage.getItem('meCompleted')||'[]')),lesson=0,chapter=0,sim=0,simVals={},snaps=[],qi=0,score=0,streak=0,ei=0,bench='timing';
-function save(){localStorage.setItem('meCompleted',JSON.stringify([...completed]));progress()}function progress(){$('#progressText').textContent=`${completed.size} / 8 complete`;$('#progressFill').style.width=`${completed.size/8*100}%`}
-function view(n){$$('.view').forEach(v=>v.classList.toggle('active-view',v.id==='view-'+n));$$('.nav-button').forEach(b=>b.classList.toggle('active',b.dataset.view===n));if(n==='lab')setTimeout(draw,20);if(n==='practical')setTimeout(drawBench,20)}$$('.nav-button').forEach(b=>b.onclick=()=>view(b.dataset.view));$$('[data-jump]').forEach(b=>b.onclick=()=>view(b.dataset.jump));
-function course(){$('#courseList').innerHTML=lessons.map((l,i)=>`<button class="course-button ${i===lesson?'active':''} ${completed.has(i)?'complete':''}" data-l="${i}"><span class="course-code">${l[0]}</span><span class="course-title">${i+1}. ${l[1]}</span></button>`).join('');$$('[data-l]').forEach(b=>b.onclick=()=>{lesson=+b.dataset.l;course()});let l=lessons[lesson];$('#lessonPanel').innerHTML=`<span class="eyebrow">Lesson ${lesson+1} · ${l[0]}</span><h2>${l[1]}</h2><p class="lesson-lead">${l[2]}</p><div class="keyword-row">${vocab[lesson].map(x=>`<span class="keyword-chip">${x}</span>`).join('')}</div><div class="lesson-grid"><section class="lesson-block"><h3>Retrieval starter</h3><ol><li>Define one key term from this lesson.</li><li>Give one practical example.</li><li>Predict one common mistake.</li></ol></section><section class="lesson-block"><h3>Core teaching</h3><p>${l[3]}</p></section><section class="lesson-block worked-block"><h3>Equation / method</h3><button class="equation-button" data-eq="${l[4]}">${eq[l[4]].f}</button><p class="compact">Click for a breakdown.</p></section><section class="lesson-block"><h3>Worked example</h3><p>${l[5]}</p></section><section class="lesson-block remember"><h3>Interactive mission</h3><p>Open the linked simulation and change one variable at a time. Predict the effect before checking the display.</p><button class="button" id="openLinked">Open linked model</button></section><section class="lesson-block warning"><h3>Exam check</h3><p><strong>Exit question:</strong> ${l[6]}</p></section></div><div class="lesson-actions"><button class="button" id="prev" ${lesson===0?'disabled':''}>← Previous</button><button class="button primary" id="done">${completed.has(lesson)?'Completed ✓':'Mark lesson complete'}</button><button class="button" id="next" ${lesson===7?'disabled':''}>Next →</button></div>`;$('#prev').onclick=()=>{lesson--;course()};$('#next').onclick=()=>{lesson++;course()};$('#done').onclick=()=>{completed.has(lesson)?completed.delete(lesson):completed.add(lesson);save();course()};$('#openLinked').onclick=()=>{sim=Math.min(5,Math.max(0,lesson-2));renderSim();view('lab')};wireEq()}
-function textbookRender(){$('#textbookList').innerHTML=lessons.map((l,i)=>`<button class="chapter-button ${i===chapter?'active':''}" data-c="${i}"><strong>${i+1}. ${l[1]}</strong><br><span class="muted small">${l[0]}</span></button>`).join('');$$('[data-c]').forEach(b=>b.onclick=()=>{chapter=+b.dataset.c;textbookRender()});let l=lessons[chapter];$('#textbookArticle').innerHTML=`<span class="eyebrow">${l[0]} · Textbook chapter</span><h2>${chapter+1}. ${l[1]}</h2><section><h3>Core explanation</h3><p>${l[3]}</p></section><section><h3>Key vocabulary</h3><p>${vocab[chapter].join(' · ')}</p></section><section><h3>Relationship / method</h3><button class="equation-button" data-eq="${l[4]}">${eq[l[4]].f}</button></section><section><h3>Worked example</h3><p>${l[5]}</p></section><section><h3>Practical thinking</h3><p>Choose an instrument with suitable resolution, check zero/calibration where relevant, repeat readings when random scatter matters, and report uncertainty that matches the method.</p></section><section class="warning"><h3>AQA exam focus</h3><p>Use precise measurement vocabulary and always link an improvement to the limitation it addresses.</p></section>`;wireEq()}
-function wireEq(){$$('[data-eq]').forEach(b=>b.onclick=()=>openEq(b.dataset.eq))}function openEq(k){let e=eq[k];$('#equationTitle').textContent=e.t;$('#equationBody').innerHTML=`<div class="equation"><strong>${e.f}</strong></div><p>${e.m}</p><h3>Worked example</h3><p>${e.e}</p>`;$('#equationModal').classList.remove('hidden')}$('#equationClose').onclick=()=>$('#equationModal').classList.add('hidden');$('#equationModal').onclick=e=>{if(e.target.id==='equationModal')e.currentTarget.classList.add('hidden')};
-function renderSim(){let s=sims[sim];if(!simVals[s.id]){simVals[s.id]={};s.controls.forEach(c=>simVals[s.id][c[0]]=c[2])}$('#simTabs').innerHTML=sims.map((x,i)=>`<button class="sim-tab ${i===sim?'active':''}" data-s="${i}">${x.title}</button>`).join('');$$('[data-s]').forEach(b=>b.onclick=()=>{sim=+b.dataset.s;renderSim()});$('#simCode').textContent=s.code;$('#simTitle').textContent=s.title;$('#simSubtitle').textContent=s.sub;$('#missionGoal').textContent=s.goal;$('#missionSteps').innerHTML=s.steps.map(x=>`<li>${x}</li>`).join('');$('#missionConclusion').textContent=s.con;$('#simpleExplain').textContent=s.simple;$('#examExplain').textContent=s.exam;$('#mistakeExplain').textContent=s.mistake;let v=simVals[s.id];$('#simControls').innerHTML=s.controls.map(c=>`<label class="field"><span>${c[1]}</span><input type="range" data-sc="${c[0]}" min="${c[3]}" max="${c[4]}" step="${c[5]}" value="${v[c[0]]}"><output>${v[c[0]]}</output></label>`).join('');$$('[data-sc]').forEach(i=>i.oninput=()=>{v[i.dataset.sc]=+i.value;i.nextElementSibling.textContent=i.value;draw()});snaps=[];renderSnaps();draw()}
-const cv=$('#simCanvas'),cx=cv.getContext('2d');function fit(c){let r=c.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1);c.width=r.width*d;c.height=r.height*d;c.getContext('2d').setTransform(d,0,0,d,0,0);return{w:r.width,h:r.height}}function base(t){let {w,h}=fit(cv),g=cx.createLinearGradient(0,0,0,h);g.addColorStop(0,'#07131f');g.addColorStop(1,'#030910');cx.fillStyle=g;cx.fillRect(0,0,w,h);cx.fillStyle='#9fb0c6';cx.font='14px system-ui';cx.fillText(t,18,30);return{w,h}}
-function draw(){let s=sims[sim],v=simVals[s.id];if(!v)return;let {w,h}=base(s.title),pad=55;if(s.id==='res'){let px=(w-pad*2)/90,y=h*.57,shown=Math.round(v.value/v.res)*v.res;cx.strokeStyle='#d8e3ef';cx.lineWidth=3;cx.beginPath();cx.moveTo(pad,y);cx.lineTo(w-pad,y);cx.stroke();for(let m=0;m<=80;m+=10){let x=pad+m*px;cx.fillStyle='#9fb0c6';cx.fillText(m,x-5,y+24)}cx.strokeStyle='#57d3ff';cx.lineWidth=5;cx.beginPath();cx.moveTo(pad,y-48);cx.lineTo(pad+shown*px,y-48);cx.stroke();cx.fillStyle='#f4f7fb';cx.font='bold 24px system-ui';cx.fillText(`true ${fmt(v.value,2)} mm`,pad,105);cx.fillText(`display ${fmt(shown,3)} mm`,pad,145);$('#simReadout').innerHTML=`Displayed <strong>${fmt(shown,3)} mm</strong> · resolution <strong>${v.res} mm</strong>`}else if(s.id==='err'){let vals=Array.from({length:Math.round(v.n)},()=>v.true+v.offset+rand()*v.scatter),mean=vals.reduce((a,b)=>a+b,0)/vals.length,min=v.true-4,max=v.true+4,map=z=>pad+(z-min)/(max-min)*(w-pad*2),y=h*.62;cx.strokeStyle='#496177';cx.beginPath();cx.moveTo(pad,y);cx.lineTo(w-pad,y);cx.stroke();cx.strokeStyle='#8ce99a';cx.beginPath();cx.moveTo(map(v.true),80);cx.lineTo(map(v.true),h-60);cx.stroke();vals.forEach((z,i)=>{cx.fillStyle='#57d3ff';cx.beginPath();cx.arc(map(z),y+(i%3-1)*14,5,0,Math.PI*2);cx.fill()});cx.strokeStyle='#ffd166';cx.beginPath();cx.moveTo(map(mean),100);cx.lineTo(map(mean),h-70);cx.stroke();$('#simReadout').innerHTML=`Mean ≈ <strong>${fmt(mean,3)}</strong> · true ${v.true} · offset ${v.offset}` }else if(s.id==='unc'){let p=pct(v.dx,v.x);cx.fillStyle='#f4f7fb';cx.font='bold 34px system-ui';cx.fillText(`${v.x} ± ${v.dx}`,70,150);cx.fillStyle='#8ce99a';cx.fillText(`${fmt(p,2)}% uncertainty`,70,215);$('#simReadout').innerHTML=`(${v.dx}/${v.x})×100 = <strong>${fmt(p,3)}%</strong>`}else if(s.id==='prop'){let sum=v.ua+v.ub,pow=v.ua*v.power;[['A',v.ua+'%'],['B',v.ub+'%'],['A×B / A÷B',fmt(sum,2)+'%'],[`A^${v.power}`,fmt(pow,2)+'%']].forEach((a,i)=>{let x=40+(i%2)*(w/2),y=110+Math.floor(i/2)*150;cx.fillStyle='#10243a';cx.fillRect(x,y,w/2-70,105);cx.fillStyle='#9fb0c6';cx.fillText(a[0],x+14,y+28);cx.fillStyle='#57d3ff';cx.font='bold 28px system-ui';cx.fillText(a[1],x+14,y+70);cx.font='14px system-ui'});$('#simReadout').innerHTML=`product/quotient <strong>${fmt(sum,2)}%</strong> · A^${v.power} <strong>${fmt(pow,2)}%</strong>`}else if(s.id==='graph'){axes(cx,w,h);let pts=Array.from({length:7},(_,i)=>({x:i+1,y:v.slope*(i+1)+1+rand()*v.scatter,u:v.yunc})),lr=reg(pts),span=v.yunc/3,xm=z=>60+z/8*(w-90),ym=z=>h-60-z/(v.slope*8+5)*(h-105);pts.forEach(p=>{let x=xm(p.x),y=ym(p.y),du=Math.abs(ym(p.y+p.u)-y);cx.strokeStyle='#7aa0bd';cx.beginPath();cx.moveTo(x,y-du);cx.lineTo(x,y+du);cx.stroke();cx.fillStyle='#57d3ff';cx.beginPath();cx.arc(x,y,4,0,Math.PI*2);cx.fill()});let line=(m,c,col)=>{cx.strokeStyle=col;cx.beginPath();cx.moveTo(xm(0),ym(c));cx.lineTo(xm(8),ym(m*8+c));cx.stroke()};line(lr.m,1,'#8ce99a');line(lr.m+span,1,'#ffd166');line(lr.m-span,1,'#ff8a8a');$('#simReadout').innerHTML=`best m ≈ <strong>${fmt(lr.m,3)}</strong> · Δm ≈ <strong>${fmt(span,3)}</strong>`}else{let total=v.rate*60*v.hours*v.days,p=Math.round(Math.log10(total));cx.fillStyle='#f4f7fb';cx.font='bold 34px system-ui';cx.fillText(`${v.rate} × 60 × ${v.hours} × ${v.days}`,55,145);cx.fillStyle='#57d3ff';cx.fillText(total.toExponential(2),55,210);cx.fillStyle='#8ce99a';cx.fillText(`order ≈ 10^${p}`,55,275);$('#simReadout').innerHTML=`Estimate <strong>${total.toExponential(3)}</strong> · order <strong>10<sup>${p}</sup></strong>`}}
-function axes(c,w,h){c.strokeStyle='#35506a';c.beginPath();c.moveTo(60,h-60);c.lineTo(w-25,h-60);c.moveTo(60,35);c.lineTo(60,h-60);c.stroke()}function reg(p){let n=p.length,sx=p.reduce((s,a)=>s+a.x,0),sy=p.reduce((s,a)=>s+a.y,0),sxx=p.reduce((s,a)=>s+a.x*a.x,0),sxy=p.reduce((s,a)=>s+a.x*a.y,0),m=(n*sxy-sx*sy)/(n*sxx-sx*sx);return{m,b:(sy-m*sx)/n}}
-$('#resetSim').onclick=()=>{delete simVals[sims[sim].id];renderSim()};$('#snapshotSim').onclick=()=>{snaps.unshift($('#simReadout').innerText);snaps=snaps.slice(0,4);renderSnaps()};function renderSnaps(){$('#snapshotTray').innerHTML=snaps.map(x=>`<div class="snapshot">${x}</div>`).join('')}$('#predictPrompt').onclick=()=>alert(['What changes if resolution improves?','Will repeats remove a systematic offset?','What happens to % uncertainty when x increases?','Which uncertainty rule applies first?','How do larger error bars affect gradient uncertainty?','What assumption most affects this estimate?'][sim]);
-function renderFormula(){$('#formulaSelect').innerHTML=formulas.map(f=>`<option value="${f[0]}">${f[1]}</option>`).join('');$('#formulaCards').innerHTML=formulas.map(f=>`<div class="formula-card"><strong>${f[1]}</strong><p class="muted small">Open this calculation in the Formula Coach.</p><button class="button" data-fopen="${f[0]}">Open tool</button></div>`).join('');$('#formulaSelect').onchange=formInputs;$$('[data-fopen]').forEach(b=>b.onclick=()=>{$('#formulaSelect').value=b.dataset.fopen;formInputs()});formInputs()}function formInputs(){let f=formulas.find(x=>x[0]===$('#formulaSelect').value)||formulas[0];$('#formulaInputs').innerHTML=f[2].map(a=>`<label class="field"><span>${a[1]}</span><input type="number" step="any" data-fi="${a[0]}" value="${a[2]}"></label>`).join('');$$('[data-fi]').forEach(i=>i.oninput=calc);calc()}function calc(){let f=formulas.find(x=>x[0]===$('#formulaSelect').value)||formulas[0],v={};$$('[data-fi]').forEach(i=>v[i.dataset.fi]=+i.value);let r=f[3](v);$('#formulaWorking').innerHTML=`<span class="step"><strong>Calculation:</strong> ${r[2]}</span><span class="step"><strong>Result:</strong> ${fmt(r[0],4)} ${r[1]}</span>`}
-let timing=[],micro=[],graphData=[];$$('[data-practical]').forEach(b=>b.onclick=()=>{bench=b.dataset.practical;$$('[data-practical]').forEach(x=>x.classList.toggle('primary',x.dataset.practical===bench));renderBench()});function renderBench(){if(bench==='timing'){$('#practicalBody').innerHTML=`<div class="bench-grid"><article class="panel bench-box"><h3>Timing bench · reduce percentage uncertainty</h3><label class="field"><span>Oscillations timed</span><input id="tc" type="range" min="1" max="20" value="10"><output id="tco">10</output></label><label class="field"><span>Reaction-time uncertainty / s</span><input id="tr" type="range" min="0.05" max="0.40" step="0.01" value="0.20"><output id="tro">0.20</output></label><div class="button-row"><button class="button primary" id="takeT">Take reading</button><button class="button" id="clearT">Clear</button></div><p class="practical-guidance">Time many oscillations, use a fiducial marker and divide the total time by the count.</p></article><article class="panel bench-box"><h3>Results</h3><div id="tRows" class="result-list"></div><div class="equation" id="tSum">Take readings using different counts.</div></article></div>`;$('#tc').oninput=e=>$('#tco').textContent=e.target.value;$('#tr').oninput=e=>$('#tro').textContent=e.target.value;$('#takeT').onclick=()=>{let n=+$('#tc').value,du=+$('#tr').value,total=1.72*n+rand()*du,T=total/n,d=du/n;timing.push({n,total,T,d,p:pct(d,T)});renderBench()};$('#clearT').onclick=()=>{timing=[];renderBench()};$('#tRows').innerHTML=timing.map(r=>`<div class="result-row">${r.n} oscillations · total ${fmt(r.total,3)} s · T ${fmt(r.T,4)} s · ΔT ${fmt(r.d,4)} s · ${fmt(r.p,2)}%</div>`).join('');if(timing.length)$('#tSum').innerHTML=`Best relative uncertainty: <strong>${fmt(Math.min(...timing.map(r=>r.p)),2)}%</strong>`}else if(bench==='micro'){$('#practicalBody').innerHTML=`<div class="bench-grid"><article class="panel bench-box"><h3>Micrometer bench</h3><label class="field"><span>True diameter / mm</span><input id="mt" type="range" min="0.20" max="1.00" step="0.01" value="0.50"><output>0.50</output></label><label class="field"><span>Zero error / mm</span><input id="mz" type="range" min="-0.08" max="0.08" step="0.01" value="0.00"><output>0.00</output></label><div class="button-row"><button class="button primary" id="takeM">Take reading</button><button class="button" id="clearM">Clear</button></div><p class="practical-guidance">Check zero error, use the ratchet, repeat at different positions and orientations.</p></article><article class="panel bench-box"><h3>Results</h3><div id="mRows" class="result-list"></div><div class="equation" id="mSum">Take at least five readings.</div></article></div>`;$$('#mt,#mz').forEach(i=>i.oninput=()=>i.nextElementSibling.textContent=(+i.value).toFixed(2));$('#takeM').onclick=()=>{let t=+$('#mt').value,z=+$('#mz').value,raw=t+z+rand()*.008;micro.push({raw,c:raw-z});renderBench()};$('#clearM').onclick=()=>{micro=[];renderBench()};$('#mRows').innerHTML=micro.map((r,i)=>`<div class="result-row">${i+1}. raw ${r.raw.toFixed(3)} mm · corrected ${r.c.toFixed(3)} mm</div>`).join('');if(micro.length){let a=micro.map(r=>r.c),m=a.reduce((x,y)=>x+y,0)/a.length,hr=(Math.max(...a)-Math.min(...a))/2;$('#mSum').innerHTML=`Mean <strong>${m.toFixed(3)} mm</strong> · half-range <strong>±${hr.toFixed(3)} mm</strong>`}}else{$('#practicalBody').innerHTML=`<div class="bench-grid"><article class="panel bench-box"><h3>Graph uncertainty bench</h3><label class="field"><span>Y uncertainty</span><input id="gu" type="range" min="0.05" max="0.80" step="0.05" value="0.25"><output>0.25</output></label><label class="field"><span>Scatter</span><input id="gs" type="range" min="0" max="0.70" step="0.05" value="0.20"><output>0.20</output></label><div class="button-row"><button class="button primary" id="genG">Generate data</button><button class="button" id="clearG">Clear</button></div><p class="practical-guidance">Use error bars and limiting acceptable lines to estimate gradient uncertainty.</p></article><article class="panel bench-box"><h3>Graph</h3><div class="bench-visual large-graph"><canvas id="benchCanvas"></canvas></div><div class="equation" id="gSum">Generate data to begin.</div></article></div>`;$$('#gu,#gs').forEach(i=>i.oninput=()=>i.nextElementSibling.textContent=(+i.value).toFixed(2));$('#genG').onclick=()=>{let u=+$('#gu').value,s=+$('#gs').value;graphData=Array.from({length:8},(_,i)=>({x:i+1,y:1.6*(i+1)+2+rand()*s,u}));drawBench()};$('#clearG').onclick=()=>{graphData=[];drawBench()};setTimeout(drawBench,20)}}
-function drawBench(){let c=$('#benchCanvas');if(!c)return;let r=c.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1);c.width=r.width*d;c.height=r.height*d;let g=c.getContext('2d');g.setTransform(d,0,0,d,0,0);g.fillStyle='#06111e';g.fillRect(0,0,r.width,r.height);axes(g,r.width,r.height);if(!graphData.length)return;let ymax=Math.max(...graphData.map(p=>p.y+p.u))*1.1,xm=z=>60+z/9*(r.width-85),ym=z=>r.height-60-z/ymax*(r.height-100);graphData.forEach(p=>{let x=xm(p.x),y=ym(p.y),du=Math.abs(ym(p.y+p.u)-y);g.strokeStyle='#7aa0bd';g.beginPath();g.moveTo(x,y-du);g.lineTo(x,y+du);g.stroke();g.fillStyle='#57d3ff';g.beginPath();g.arc(x,y,4,0,Math.PI*2);g.fill()});let lr=reg(graphData),span=(graphData[0].u||.2)/4,line=(m,col)=>{g.strokeStyle=col;g.beginPath();g.moveTo(xm(0),ym(lr.b));g.lineTo(xm(9),ym(m*9+lr.b));g.stroke()};line(lr.m,'#8ce99a');line(lr.m+span,'#ffd166');line(lr.m-span,'#ff8a8a');$('#gSum').innerHTML=`Best gradient <strong>${fmt(lr.m,3)}</strong> · Δm ≈ <strong>${fmt(span,3)}</strong> (${fmt(pct(span,lr.m),2)}%)`}
-function renderQuiz(){let q=quiz[qi];$('#quizProgress').textContent=`${qi+1} / ${quiz.length}`;$('#quizProgressFill').style.width=`${(qi+1)/quiz.length*100}%`;$('#quizScore').textContent=score;$('#quizStreak').textContent=streak;$('#quizSpec').textContent=q.s;$('#quizQuestion').textContent=q.q;$('#quizChoices').innerHTML=q.c.map((x,i)=>`<button class="choice-button" data-qc="${i}">${x}</button>`).join('');$('#quizFeedback').classList.add('hidden');$('#nextQuestion').classList.add('hidden');$$('[data-qc]').forEach(b=>b.onclick=()=>answer(+b.dataset.qc))}function answer(i){let q=quiz[qi],ok=i===q.a;if(ok){score++;streak++}else streak=0;$$('[data-qc]').forEach((b,j)=>{b.disabled=true;if(j===q.a)b.classList.add('correct');if(j===i&&!ok)b.classList.add('wrong')});$('#quizScore').textContent=score;$('#quizStreak').textContent=streak;$('#quizFeedback').textContent=(ok?'Correct. ':'Not quite. ')+q.w;$('#quizFeedback').classList.remove('hidden');$('#nextQuestion').classList.remove('hidden')}$('#nextQuestion').onclick=()=>{qi=(qi+1)%quiz.length;renderQuiz()};$('#restartQuiz').onclick=()=>{qi=score=streak=0;renderQuiz()};
-$$('[data-mastery]').forEach(b=>b.onclick=()=>{let m=b.dataset.mastery;$('#masteryQuiz').classList.toggle('hidden',m!=='quiz');$('#masteryExtended').classList.toggle('hidden',m!=='extended');$$('[data-mastery]').forEach(x=>x.classList.toggle('primary',x.dataset.mastery===m));if(m==='extended')renderExt()});function renderExt(){$('#extendedList').innerHTML=`<span class="eyebrow">Extended response bank</span><h3>Explain, evaluate, justify</h3>${ext.map((e,i)=>`<button class="ext-button ${i===ei?'active':''}" data-ext="${i}"><strong>${e.c}</strong><br><span class="small">${e.q}</span></button>`).join('')}`;$$('[data-ext]').forEach(b=>b.onclick=()=>{ei=+b.dataset.ext;renderExt()});let e=ext[ei];$('#extendedCode').textContent=e.c;$('#extendedQuestion').textContent=e.q;$('#extendedPrompt').textContent=e.p;$('#extendedAnswer').value='';$('#extendedFeedback').classList.add('hidden')}$('#markExtended').onclick=()=>{let e=ext[ei],t=$('#extendedAnswer').value.toLowerCase(),hit=e.k.filter(k=>new RegExp(k[1],'i').test(t)),miss=e.k.filter(k=>!new RegExp(k[1],'i').test(t));$('#extendedFeedback').innerHTML=`<strong>Estimated mark points: ${hit.length}/${e.k.length}</strong><br>Detected: ${hit.map(x=>x[0]).join(', ')||'none yet'}<br>Consider adding: ${miss.map(x=>x[0]).join(', ')||'all core ideas detected'}<br><span class="muted small">Practice-only transparent keyword matching, not an official AQA mark scheme.</span>`;$('#extendedFeedback').classList.remove('hidden')};$('#clearExtended').onclick=()=>{$('#extendedAnswer').value='';$('#extendedFeedback').classList.add('hidden')};
-function specRender(){$('#specGrid').innerHTML=specs.map(s=>`<article class="spec-card"><span class="eyebrow">${s[0]}</span><h3>${s[1]}</h3><ul>${s[2].map(x=>`<li>${x}</li>`).join('')}</ul></article>`).join('')}$('#resetProgress').onclick=()=>{if(confirm('Reset completed lessons?')){completed.clear();save();course()}};addEventListener('resize',()=>{draw();drawBench()});course();textbookRender();renderSim();renderFormula();renderBench();renderQuiz();renderExt();specRender();progress();})();
-</script>
-</body></html>
+  <section class="hero grid">
+    <article class="panel hero-copy">
+      <span class="eyebrow">AQA 3.1 · Measurements and their errors</span>
+      <h1>Measure carefully, quantify uncertainty, and decide what the data really supports.</h1>
+      <p>A guided course for SI units, prefixes, measurement quality, random and systematic errors, uncertainty calculations, uncertainty propagation, error bars, graph gradients, significant figures and order-of-magnitude estimation. The structure deliberately matches your Electricity Learning Lab.</p>
+      <div class="hero-actions">
+        <button class="button primary" data-jump="course">Start guided course</button>
+        <button class="button" data-jump="lab">Open simulation lab</button>
+        <button class="button" data-jump="practical">Open data-analysis lab</button>
+      </div>
+    </article>
+    <aside class="panel progress-card">
+      <div class="progress-head"><strong>Section 3.1 progress</strong><span id="progressText">0 / 8 complete</span></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="stat-grid">
+        <div><strong>8</strong><span>sequenced lessons</span></div>
+        <div><strong>6</strong><span>interactive models</span></div>
+        <div><strong>16</strong><span>calculation tools</span></div>
+        <div><strong>4</strong><span>data-analysis benches</span></div>
+      </div>
+      <button class="text-button" id="resetProgress">Reset progress</button>
+    </aside>
+  </section>
+
+  <nav class="main-nav compact-nav" aria-label="Main navigation">
+    <button class="nav-button active" data-view="course">Learn</button>
+    <button class="nav-button" data-view="textbook">Textbook</button>
+    <button class="nav-button" data-view="lab">Simulations</button>
+    <button class="nav-button" data-view="formula">Formula Coach</button>
+    <button class="nav-button" data-view="practical">Practicals</button>
+    <button class="nav-button" data-view="mastery">Mastery Hub</button>
+    <button class="nav-button" data-view="spec">AQA Map</button>
+  </nav>
+
+  <section class="view active-view" id="view-course">
+    <div class="section-head">
+      <div><span class="eyebrow">Guided learning</span><h2>Full AQA 3.1 teaching sequence</h2></div>
+      <p class="muted">Each lesson follows retrieval → core teaching → key relationship → worked example → interactive mission → exam check → exit question.</p>
+    </div>
+    <div class="course-layout">
+      <div class="course-list" id="courseList"></div>
+      <article class="panel lesson-panel" id="lessonPanel"></article>
+    </div>
+  </section>
+
+  <section class="view" id="view-textbook">
+    <div class="section-head">
+      <div><span class="eyebrow">Full teaching notes</span><h2>AQA Measurements & Errors textbook</h2></div>
+      <p class="muted">Detailed explanations, worked examples, instrument guidance, uncertainty rules, graph methods and exam traps for AQA 7408 section 3.1.</p>
+    </div>
+    <div class="textbook-layout">
+      <aside class="textbook-sidebar" id="textbookList" aria-label="Textbook chapters"></aside>
+      <article class="panel textbook-article" id="textbookArticle"></article>
+    </div>
+  </section>
+
+  <section class="view" id="view-lab">
+    <div class="section-head">
+      <div><span class="eyebrow">Learning through models</span><h2>Interactive measurement simulation lab</h2></div>
+      <p class="muted">Change instrument resolution, random scatter, zero error, uncertainty size and graph data. Capture readings and explain what changes.</p>
+    </div>
+    <div class="sim-tabs" id="simTabs"></div>
+    <div class="lab-layout">
+      <div>
+        <div class="viewer-wrap">
+          <canvas id="simCanvas" aria-label="Interactive measurements and errors simulation"></canvas>
+          <div class="viewer-badges"><span class="pill" id="simSpec">AQA 3.1</span><span class="pill" id="simState">Live model</span></div>
+          <div class="drag-hint">Use the controls · works with mouse or touch</div>
+        </div>
+        <div class="viewer-controls">
+          <button class="button" id="resetSim">Reset model</button>
+          <button class="button" id="snapshotSim">Capture reading</button>
+          <button class="button" id="predictPrompt">Prediction prompt</button>
+        </div>
+        <div class="snapshot-tray" id="snapshotTray"></div>
+        <p class="model-note">These are teaching models: use them to practise the numerical treatment of uncertainty and to support real practical work.</p>
+      </div>
+      <aside class="lab-side">
+        <article class="panel sim-heading">
+          <span class="eyebrow" id="simCode"></span>
+          <h2 id="simTitle"></h2>
+          <p class="muted" id="simSubtitle"></p>
+        </article>
+        <article class="panel mission-card">
+          <span class="eyebrow">Linked learning mission</span>
+          <h3 id="missionGoal">Explore the model</h3>
+          <ol id="missionSteps"></ol>
+          <p class="small"><strong>Conclude:</strong> <span id="missionConclusion"></span></p>
+        </article>
+        <div class="control-stack" id="simControls"></div>
+        <div class="equation" id="simReadout"></div>
+        <article class="panel learning-box simple-box"><h3>What the model shows</h3><div id="simpleExplain"></div></article>
+        <article class="panel learning-box exam-box"><h3>AQA exam language</h3><div id="examExplain"></div></article>
+        <article class="panel learning-box mistake-box"><h3>Common mistake</h3><div id="mistakeExplain"></div></article>
+      </aside>
+    </div>
+  </section>
+
+  <section class="view" id="view-formula">
+    <div class="section-head">
+      <div><span class="eyebrow">Calculation support</span><h2>Formula coach</h2></div>
+      <p class="muted">Choose an uncertainty or data relationship, enter values and follow selection, substitution, unit handling and the final result.</p>
+    </div>
+    <div class="formula-layout">
+      <article class="panel pad">
+        <label class="field"><span>Choose calculation</span><select id="formulaSelect"></select></label>
+        <div class="control-stack" id="formulaInputs"></div>
+      </article>
+      <article class="panel pad">
+        <h3>Worked result</h3>
+        <div class="worked" id="formulaWorking"></div>
+      </article>
+    </div>
+    <div class="formula-cards" id="formulaCards"></div>
+  </section>
+
+  <section class="view" id="view-practical">
+    <div class="section-head">
+      <div><span class="eyebrow">AQA practical skills</span><h2>Measurement & data-analysis benches</h2></div>
+      <p class="muted">Practise realistic decisions that sit underneath all A-level practical work: repeated readings, instrument choice, uncertainty, graphing and evaluation.</p>
+    </div>
+    <div class="practical-switch" id="practicalSwitch">
+      <button class="button primary" data-practical="timing">Timing & repeats</button>
+      <button class="button" data-practical="micrometer">Micrometer bench</button>
+      <button class="button" data-practical="graph">Graph uncertainty</button>
+      <button class="button" data-practical="instrument">Instrument chooser</button>
+    </div>
+
+    <div class="practical-panel" id="practical-timing">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>Timing bench · reduce percentage uncertainty</h3>
+          <p class="muted small">Compare timing a single oscillation with timing many oscillations and dividing by the count.</p>
+          <label class="field"><span>Number of oscillations timed</span><input type="range" id="timingCount" min="1" max="20" value="10" step="1"><output id="timingCountOut">10</output></label>
+          <label class="field"><span>Reaction-time uncertainty</span><input type="range" id="timingReaction" min="0.05" max="0.40" value="0.20" step="0.01"><output id="timingReactionOut">±0.20 s</output></label>
+          <div class="practical-rig pendulum-rig"><div class="pendulum-line"></div><div class="pendulum-bob"></div><div class="stopwatch">00.00 s</div></div>
+          <div class="button-row"><button class="button primary" id="takeTimingReading">Take reading</button><button class="button" id="clearTimingData">Clear</button></div>
+          <div class="practical-guidance"><strong>Evaluation focus:</strong> time several oscillations, use a fiducial marker, repeat measurements and quote a realistic uncertainty.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Results and uncertainty</h3>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>Oscillations</th><th>Total t / s</th><th>Period T / s</th><th>ΔT / s</th><th>% uncertainty</th></tr></thead><tbody id="timingRows"></tbody></table></div>
+          <div class="equation" id="timingSummary">Collect readings using different counts.</div>
+        </article>
+      </div>
+    </div>
+
+    <div class="practical-panel hidden" id="practical-micrometer">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>Micrometer bench · repeat and check zero error</h3>
+          <p class="muted small">Measure a wire at several positions and orientations. A controllable zero error lets you distinguish random variation from a systematic offset.</p>
+          <label class="field"><span>True diameter</span><input type="range" id="microTrue" min="0.20" max="1.00" value="0.50" step="0.01"><output id="microTrueOut">0.50 mm</output></label>
+          <label class="field"><span>Zero error</span><input type="range" id="microZero" min="-0.08" max="0.08" value="0.00" step="0.01"><output id="microZeroOut">0.00 mm</output></label>
+          <div class="micrometer-visual"><div class="micro-frame"></div><div class="micro-wire" id="microWire"></div><div class="micro-scale" id="microScale">0.50 mm</div></div>
+          <div class="button-row"><button class="button primary" id="takeMicroReading">Take reading</button><button class="button" id="clearMicroData">Clear</button></div>
+          <div class="practical-guidance"><strong>Evaluation focus:</strong> close the micrometer before use, correct any zero error, take repeated readings in different positions/orientations and do not overtighten.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Results and analysis</h3>
+          <div class="table-scroll"><table class="data-table"><thead><tr><th>Reading</th><th>Raw / mm</th><th>Corrected / mm</th></tr></thead><tbody id="microRows"></tbody></table></div>
+          <div class="equation" id="microSummary">Take at least five readings.</div>
+        </article>
+      </div>
+    </div>
+
+    <div class="practical-panel hidden" id="practical-graph">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>Graph bench · error bars and gradient uncertainty</h3>
+          <p class="muted small">Generate a linear data set with adjustable uncertainty, then compare best, steepest and shallowest acceptable gradients.</p>
+          <label class="field"><span>Measurement uncertainty</span><input type="range" id="graphUnc" min="0.05" max="0.80" value="0.25" step="0.05"><output id="graphUncOut">±0.25</output></label>
+          <label class="field"><span>Scatter level</span><input type="range" id="graphScatter" min="0.00" max="0.70" value="0.20" step="0.05"><output id="graphScatterOut">0.20</output></label>
+          <div class="button-row"><button class="button primary" id="generateGraphData">Generate data</button><button class="button" id="clearGraphData">Clear</button></div>
+          <div class="practical-guidance"><strong>Evaluation focus:</strong> error bars show uncertainty in individual points. Gradient uncertainty is estimated from the range of acceptable steepest and shallowest lines.</div>
+        </article>
+        <article class="panel pad">
+          <h3>Graph and gradient range</h3>
+          <div class="mini-graph large"><canvas id="graphBenchCanvas"></canvas></div>
+          <div class="equation" id="graphBenchSummary">Generate a data set to begin.</div>
+        </article>
+      </div>
+    </div>
+
+    <div class="practical-panel hidden" id="practical-instrument">
+      <div class="practical-grid">
+        <article class="panel pad">
+          <h3>Instrument chooser · select the most suitable apparatus</h3>
+          <p class="muted small">Choose an instrument that gives suitable range and resolution for the measurement. This mirrors the decision-making needed across A-level practical work.</p>
+          <label class="field"><span>Measurement task</span><select id="instrumentTask"></select></label>
+          <div id="instrumentChoices" class="choice-list"></div>
+        </article>
+        <article class="panel pad">
+          <h3>Decision feedback</h3>
+          <div class="equation" id="instrumentPrompt">Choose a task, then select an instrument.</div>
+          <div id="instrumentFeedback" class="feedback hidden"></div>
+          <div class="practical-guidance"><strong>Exam focus:</strong> justify the choice using range, resolution and the size of the quantity being measured. More digits on a display do not automatically mean a more accurate result.</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-mastery">
+    <div class="section-head">
+      <div><span class="eyebrow">Retrieval + exam language</span><h2>Measurements mastery hub</h2></div>
+      <p class="muted">Original AQA-style practice with instant feedback, plus extended-response automarking using transparent mark-point matching.</p>
+    </div>
+    <div class="mastery-tabs">
+      <button class="button primary" data-mastery="quiz">Quick questions</button>
+      <button class="button" data-mastery="extended">Extended response</button>
+    </div>
+    <div id="mastery-quiz">
+      <div class="quiz-layout">
+        <aside class="panel quiz-stats pad">
+          <div class="progress-head"><span>Question</span><strong id="quizProgress">1 / 22</strong></div>
+          <div class="progress-track"><div class="progress-fill" id="quizProgressFill"></div></div>
+          <div class="stat-grid"><div><strong id="quizScore">0</strong><span>correct</span></div><div><strong id="quizStreak">0</strong><span>streak</span></div></div>
+          <button class="button" id="restartQuiz">Restart practice</button>
+        </aside>
+        <article class="panel quiz-main pad">
+          <span class="eyebrow" id="quizSpec"></span>
+          <h3 id="quizQuestion"></h3>
+          <div class="choice-list" id="quizChoices"></div>
+          <div class="feedback hidden" id="quizFeedback"></div>
+          <button class="button primary hidden" id="nextQuestion">Next question</button>
+        </article>
+      </div>
+    </div>
+    <div id="mastery-extended" class="hidden">
+      <div class="extended-layout">
+        <aside class="panel pad" id="extendedList"></aside>
+        <article class="panel pad">
+          <span class="eyebrow" id="extendedCode"></span>
+          <h3 id="extendedQuestion"></h3>
+          <p class="muted" id="extendedPrompt"></p>
+          <textarea id="extendedAnswer" rows="10" placeholder="Write your answer here..."></textarea>
+          <div class="button-row"><button class="button primary" id="markExtended">Auto-mark answer</button><button class="button" id="clearExtended">Clear</button></div>
+          <div id="extendedFeedback" class="feedback hidden"></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="view" id="view-spec">
+    <div class="section-head">
+      <div><span class="eyebrow">Specification coverage</span><h2>AQA 7408 section 3.1 checklist</h2></div>
+      <p class="muted">Covers 3.1.1–3.1.3 and the associated mathematical/practical skills that underpin the rest of the course.</p>
+    </div>
+    <div class="spec-grid" id="specGrid"></div>
+  </section>
+</main>
+
+<footer class="wrap footer">Educational teaching model aligned to AQA A-level Physics 7408 section 3.1 · Measurements & Errors Learning Lab v2.</footer>
+
+<div class="modal hidden" id="equationModal" role="dialog" aria-modal="true" aria-labelledby="equationTitle">
+  <div class="modal-card panel">
+    <button class="modal-close" id="equationClose" aria-label="Close">×</button>
+    <span class="eyebrow">Equation breakdown</span>
+    <h2 id="equationTitle"></h2>
+    <div id="equationBody"></div>
+  </div>
+</div>
+
+<script src="me-content.js?v=2"></script>
+<script src="me-assessment-data.js?v=2"></script>
+<script src="me-sim-data.js?v=2"></script>
+<script src="me-ui.js?v=2"></script>
+<script src="me-formula-practical.js?v=2"></script>
+<script src="me-assessment.js?v=2"></script>
+</body>
+</html>
