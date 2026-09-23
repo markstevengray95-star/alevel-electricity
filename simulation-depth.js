@@ -73,3 +73,11 @@
   s.dataset.realWiring='1';
   document.body.appendChild(s);
 })();
+
+(() => {
+  const modules=[['extended-response.js?v=1','extendedResponse'],['simulation-interaction-v2.js?v=1','simulationInteractionV2']];
+  modules.forEach(([src,key])=>{
+    if(document.querySelector(`script[data-module="${key}"]`))return;
+    const s=document.createElement('script');s.src=src;s.dataset.module=key;document.body.appendChild(s);
+  });
+})();
