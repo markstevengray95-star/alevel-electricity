@@ -33,7 +33,7 @@ The project mirrors the classroom workflow of the `alevel-electricity` app:
 - significant figures linked to uncertainty
 - uncertainty propagation for sums/differences, products/quotients and powers
 - error bars
-- maximum/minimum gradients
+- AQA best-fit vs worst-acceptable-line method
 - uncertainty in both gradient and intercept
 
 ### 3.1.3 Estimation of physical quantities
@@ -41,7 +41,7 @@ The project mirrors the classroom workflow of the `alevel-electricity` app:
 - approximate values
 - derived/Fermi-style estimates
 
-## v2 feature set
+## v3 feature set
 
 - 8 sequenced lessons
 - retrieval starters, objectives and vocabulary
@@ -49,11 +49,15 @@ The project mirrors the classroom workflow of the `alevel-electricity` app:
 - detailed mini-textbook explanations
 - worked calculations and clickable relationship breakdowns
 - 6 interactive models
-- 16 formula/data tools, including eV/J, kW h/J, significant figures and intercept uncertainty
-- 4 practical/data benches: timing, micrometer, graph uncertainty and instrument choice
+- 16 formula/data tools, including eV/J, kW h/J, significant figures and graph uncertainty
+- practical/data benches for timing, micrometer measurements, graph uncertainty and instrument choice
+- **Student Data Workspace** for entering unfamiliar x–y data, plotting error bars, calculating best-fit/worst acceptable lines and exporting CSV
 - 22 original AQA-style mastery questions
-- 4 extended-response questions with transparent mark-point matching
-- safe local progress tracking with fallback where browser storage is blocked
+- extended-response questions with transparent mark-point matching
+- **Significant Figures Trainer**
+- **Uncertainty Challenge** mode
+- **Progress & Misconception Dashboard** with suggested next steps
+- safe local progress tracking
 - full AQA 3.1 coverage map
 - installable static-app manifest
 - Netlify-ready static configuration
