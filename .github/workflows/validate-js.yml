@@ -38,3 +38,5 @@ jobs:
           node --check learning-enrichment-v3.js
           node --check simulation-smooth-v4.js
           node --check question-automark-v4.js
+          node --check integration-fixes-v5.js
+          node --check tests/browser-smoke-v2.mjs
