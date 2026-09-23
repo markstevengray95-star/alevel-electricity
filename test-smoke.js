@@ -1,0 +1,10 @@
+const fs=require('fs');
+const files=['index.html','styles.css','me-content.js','me-assessment-data.js','me-sim-data.js','me-ui.js','me-formula-practical.js','me-assessment.js','README.md','manifest.webmanifest','physics-icon.svg','netlify.toml'];
+for (const f of files) if (!fs.existsSync(f)) throw new Error(`Missing ${f}`);
+const html=fs.readFileSync('index.html','utf8');
+for (const id of ['view-course','view-textbook','view-lab','view-formula','view-practical','view-mastery','view-spec','practical-instrument']) if (!html.includes(`id="${id}"`)) throw new Error(`Missing ${id}`);
+const js=['me-content.js','me-assessment-data.js','me-sim-data.js','me-ui.js','me-formula-practical.js','me-assessment.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n');
+for (const term of ['percentageUncertainty','combineUncertainty','gradientUncertainty','interceptUncertainty','energyConversion','significantFigures','lessonChecks','instrumentTasks']) if (!js.includes(term)) throw new Error(`Missing ${term}`);
+if (!js.includes("id:'evj'") || !js.includes("id:'kwhj'") || !js.includes("id:'sigfig'")) throw new Error('Missing v2 formula tools');
+if (!html.includes('1 / 22')) throw new Error('Quiz total not updated');
+console.log('smoke-ok-v2-split');
