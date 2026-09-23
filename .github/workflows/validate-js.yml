@@ -33,6 +33,7 @@ jobs:
           node --check simulation-interaction-v2.js
           node --check simulation-performance-v3.js
           node --check equation-breakdown-v3.js
+          node --check equation-operator-compat-v4.js
           node --check lesson-automark-v3.js
           node --check learning-stable-v6.js
           node --check simulation-smooth-v4.js
