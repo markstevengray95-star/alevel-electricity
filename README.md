@@ -1,92 +1,82 @@
-# AQA A-level Electricity Learning Lab
+# AQA A-level Measurements & Errors Learning Lab
 
-Interactive teaching, simulation, practical and revision app for **AQA A-level Physics 7408 Section 3.5 Electricity**.
+Interactive teaching, simulation, data-analysis and revision app for **AQA A-level Physics 7408 Section 3.1: Measurements and their errors**.
 
-## Built from the Further Mechanics app layout
+This branch deliberately mirrors the classroom layout and workflow of the existing `alevel-electricity` app while replacing the Electricity content with Measurements & Errors.
 
-This version deliberately reuses the visual structure and classroom workflow of the existing `furthermechanics` app:
-- sticky dark top bar and progress panel
+## Main features
+
+- sticky dark top bar and progress dashboard
 - guided lesson list + main lesson workspace
-- interactive simulation laboratory
-- formula coach
-- required-practical workspace
-- mastery quiz
+- full mini-textbook section
+- clickable equation/method breakdowns
+- six interactive measurement/error models
+- uncertainty Formula Coach
+- practical/data-analysis benches
+- instant-feedback mastery questions
+- extended-response practice with transparent mark-point matching
 - AQA specification map
-- responsive mobile/tablet layout
+- responsive desktop/tablet/mobile layout
 - local browser progress saving
 
-## AQA 3.5 coverage
+## AQA 3.1 coverage
 
-### 3.5.1.1 Basics of electricity
-- current as rate of flow of charge
-- `I = ΔQ/Δt`
-- potential difference as work done per unit charge
-- `V = W/Q`
-- resistance `R = V/I`
+### 3.1.1 Use of SI units and prefixes
+- SI base quantities and units used in A-level Physics
+- derived units
+- standard form
+- tera, giga, mega, kilo, centi, milli, micro, nano, pico and femto
+- conversions involving squared and cubed units
 
-### 3.5.1.2 Current–voltage characteristics
-- ohmic conductor
-- filament lamp
-- semiconductor diode
-- Ohm's law under constant physical conditions
-- ideal ammeter and voltmeter assumptions
-- graph interpretation with either I or V on the horizontal axis
+### 3.1.2 Limitation of physical measurements
+- random and systematic errors
+- zero error and calibration
+- accuracy and precision
+- repeatability and reproducibility
+- resolution
+- absolute, fractional and percentage uncertainty
+- uncertainty propagation for sums, differences, products, quotients and powers
+- significant figures and sensible reporting
+- error bars
+- best-fit, maximum-gradient and minimum-gradient lines
+- uncertainty in gradients
 
-### 3.5.1.3 Resistivity
-- `ρ = RA/L`
-- wire geometry and cross-sectional area
-- temperature dependence of metals
-- NTC thermistors and temperature sensing
-- superconductivity and applications
-- **Required Practical 5**: resistivity of a wire
+### 3.1.3 Estimation of physical quantities
+- orders of magnitude
+- approximate values
+- assumption-based/Fermi-style estimates
+- plausibility checks
 
-### 3.5.1.4 Circuits
-- series and parallel resistance
-- cells in series and identical cells in parallel
-- conservation of charge and energy
-- `E = IVt`
-- `P = IV = I²R = V²/R`
+## Teaching sequence
 
-### 3.5.1.5 Potential divider
-- fixed and variable resistor dividers
-- thermistor and LDR sensor arrangements
-- output-voltage calculations
+1. SI base units and physical quantities
+2. Prefixes, standard form and conversions
+3. Accuracy, precision and resolution
+4. Random and systematic errors
+5. Absolute, fractional and percentage uncertainty
+6. Combining uncertainties
+7. Error bars and gradient uncertainty
+8. Orders of magnitude and estimation
 
-### 3.5.1.6 EMF and internal resistance
-- emf and terminal p.d.
-- lost volts
-- `V = ε − Ir`
-- `ε = I(R+r)`
-- **Required Practical 6**: determine emf and internal resistance from V–I data
+## Interactive models
 
-## Current feature set
+- Resolution & Instruments
+- Random vs Systematic Error
+- Uncertainty Explorer
+- Propagation Builder
+- Error Bars & Gradients
+- Estimation Challenge
 
-- 11 sequenced teaching lessons
-- retrieval starters, objectives and key vocabulary
-- mini-textbook explanations
-- worked calculations
-- student activity spaces
-- linked simulation missions
-- exam-language guidance and misconception checks
-- 6 interactive electricity models
-- 14 formula-coach calculations
-- RP5 and RP6 virtual data collection
-- live practical graphs and linear fitting
-- 16 original AQA-style mastery questions
-- localStorage progress tracking
-- specification coverage map
-- installable static-app manifest
+## Practical/data benches
 
-## Run locally
+- Timing and repeated measurements
+- Micrometer, zero correction and repeated diameter measurements
+- Graph uncertainty and limiting-gradient analysis
 
-Open `index.html` directly, or run:
+## Run
 
-```bash
-npm start
-```
+Open `index.html` directly in a browser. The app is static and can also be hosted on GitHub Pages, Netlify or Vercel.
 
-The app is static and can be deployed to Vercel, Netlify or another static host.
+## Branch
 
-## Educational note
-
-The simulations are schematic learning models and should be used to support, not replace, real practical work and the equations/experimental conditions required by the AQA specification.
+This Measurements & Errors build is currently stored on the `alevel-measurements-and-errors` branch so the working Electricity app on `main` remains unchanged.
