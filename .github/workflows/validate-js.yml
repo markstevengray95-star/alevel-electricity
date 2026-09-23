@@ -31,11 +31,10 @@ jobs:
           node --check real-lab-wiring.js
           node --check extended-response.js
           node --check simulation-interaction-v2.js
-          node --check learning-enrichment-v2.js
           node --check simulation-performance-v3.js
           node --check equation-breakdown-v2.js
           node --check lesson-automark-v3.js
-          node --check learning-enrichment-v3.js
+          node --check learning-stable-v6.js
           node --check simulation-smooth-v4.js
           node --check question-automark-v4.js
           node --check integration-fixes-v5.js
