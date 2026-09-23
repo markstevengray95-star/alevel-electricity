@@ -65,3 +65,11 @@
   const start=()=>{const lp=$("#labPlus");if(!lp){setTimeout(start,100);return;}render();const obs=new MutationObserver(()=>{const a=infer();if(a!==active){active=a;render();}});const tabs=$("#simTabs");if(tabs)obs.observe(tabs,{subtree:true,attributes:true,attributeFilter:["class"]});};
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",start);else start();
 })();
+
+(() => {
+  if(document.querySelector('script[data-real-wiring]')) return;
+  const s=document.createElement('script');
+  s.src='real-lab-wiring.js?v=1';
+  s.dataset.realWiring='1';
+  document.body.appendChild(s);
+})();
