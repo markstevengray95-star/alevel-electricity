@@ -30,11 +30,10 @@ jobs:
           p=Path('index.html')
           s=p.read_text()
           modules=[
-            'learning-enrichment-v2.js?v=1',
             'simulation-performance-v3.js?v=1',
             'equation-breakdown-v2.js?v=1',
             'lesson-automark-v3.js?v=1',
-            'learning-enrichment-v3.js?v=1',
+            'learning-stable-v6.js?v=1',
             'simulation-smooth-v4.js?v=1',
             'question-automark-v4.js?v=1',
             'integration-fixes-v5.js?v=1',
@@ -42,8 +41,8 @@ jobs:
           inject='\n'+'\n'.join(f'<script src="{m}"></script>' for m in modules)+'\n'
           if 'equation-breakdown-v2.js' not in s:
               s=s.replace('</body>', inject+'</body>')
-          elif 'integration-fixes-v5.js' not in s:
-              s=s.replace('</body>', '<script src="integration-fixes-v5.js?v=1"></script>\n</body>')
+          elif 'learning-stable-v6.js' not in s:
+              s=s.replace('</body>', '<script src="learning-stable-v6.js?v=1"></script>\n<script src="integration-fixes-v5.js?v=1"></script>\n</body>')
           p.write_text(s)
           PY
       - name: Setup Pages
