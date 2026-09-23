@@ -14,3 +14,11 @@
   window.addEventListener('resize',()=>{drawSim();drawGraphBench()});
 
   renderCourse(); renderTextbook(); renderSim(); renderFormula(); renderTiming(); updateMicroVisual(); renderMicro(); renderQuiz(); renderExtended(); renderSpec(); updateProgress();
+
+// v3 enhancement layer: keep v2 stable and load optional improvements after initialization.
+(() => {
+  const css=document.createElement('link');
+  css.rel='stylesheet'; css.href='v3.css?v=3'; document.head.appendChild(css);
+  const js=document.createElement('script');
+  js.src='me-v3.js?v=3'; js.defer=true; document.body.appendChild(js);
+})();
