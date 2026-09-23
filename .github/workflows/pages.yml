@@ -37,10 +37,13 @@ jobs:
             'learning-enrichment-v3.js?v=1',
             'simulation-smooth-v4.js?v=1',
             'question-automark-v4.js?v=1',
+            'integration-fixes-v5.js?v=1',
           ]
           inject='\n'+'\n'.join(f'<script src="{m}"></script>' for m in modules)+'\n'
           if 'equation-breakdown-v2.js' not in s:
               s=s.replace('</body>', inject+'</body>')
+          elif 'integration-fixes-v5.js' not in s:
+              s=s.replace('</body>', '<script src="integration-fixes-v5.js?v=1"></script>\n</body>')
           p.write_text(s)
           PY
       - name: Setup Pages
