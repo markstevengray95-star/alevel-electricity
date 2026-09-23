@@ -23,14 +23,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Load latest learning and simulation modules
+      - name: Load latest learning, marking and simulation modules
         run: |
           python - <<'PY'
           from pathlib import Path
           p=Path('index.html')
           s=p.read_text()
-          inject='''\n<script src="learning-enrichment-v2.js?v=1"></script>\n<script src="simulation-performance-v3.js?v=1"></script>\n'''
-          if 'learning-enrichment-v2.js' not in s:
+          modules=[
+            'learning-enrichment-v2.js?v=1',
+            'simulation-performance-v3.js?v=1',
+            'equation-breakdown-v2.js?v=1',
+            'lesson-automark-v3.js?v=1',
+            'learning-enrichment-v3.js?v=1',
+            'simulation-smooth-v4.js?v=1',
+            'question-automark-v4.js?v=1',
+          ]
+          inject='\n'+'\n'.join(f'<script src="{m}"></script>' for m in modules)+'\n'
+          if 'equation-breakdown-v2.js' not in s:
               s=s.replace('</body>', inject+'</body>')
           p.write_text(s)
           PY
