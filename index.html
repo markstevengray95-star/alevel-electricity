@@ -10,10 +10,11 @@
   <title>AQA A-level Electricity Learning Lab</title>
   <meta name="description" content="Interactive AQA A-level Physics 7408 Section 3.5 Electricity teaching, simulation, practical and assessment app.">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css?v=5">
-  <link rel="stylesheet" href="electricity.css?v=5">
-  <link rel="stylesheet" href="textbook.css?v=5">
-  <link rel="stylesheet" href="enhanced-sim.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="electricity.css?v=6">
+  <link rel="stylesheet" href="textbook.css?v=6">
+  <link rel="stylesheet" href="enhanced-sim.css?v=6">
+  <link rel="stylesheet" href="simulation-depth.css?v=6">
 </head>
 <body>
 <header class="topbar">
@@ -28,6 +29,7 @@
       <span class="pill">8 textbook chapters</span>
       <span class="pill">6 interactive models</span>
       <span class="pill">Virtual Lab+</span>
+      <span class="pill">Real Equipment Bench</span>
     </div>
   </div>
 </header>
@@ -92,7 +94,7 @@
   <section class="view" id="view-lab">
     <div class="section-head">
       <div><span class="eyebrow">Learning through models</span><h2>Interactive electricity simulation lab</h2></div>
-      <p class="muted">Use the original teaching model, then move into Virtual Lab+ for direct manipulation, virtual equipment, data capture, graphing and investigation work.</p>
+      <p class="muted">Use the teaching model, Virtual Lab+, Real Equipment Bench and guided practical layer to manipulate apparatus, collect data, graph results and explain the physics.</p>
     </div>
     <div class="sim-tabs" id="simTabs"></div>
     <div class="lab-layout">
@@ -108,7 +110,7 @@
           <button class="button" id="predictPrompt">Prediction prompt</button>
         </div>
         <div class="snapshot-tray" id="snapshotTray"></div>
-        <p class="model-note">Models are schematic teaching models. Use the stated equations and experimental conditions for assessed work.</p>
+        <p class="model-note">Models are teaching models. Required-practical bench layouts follow the AQA apparatus arrangement and keep assessed circuit connections explicit.</p>
       </div>
       <aside class="lab-side">
         <article class="panel sim-heading">
@@ -231,12 +233,14 @@
   </section>
 </main>
 
-<footer class="wrap footer">Educational teaching model aligned to AQA A-level Physics 7408 section 3.5 · Electricity Learning Lab v5 · Virtual Lab+ edition.</footer>
-<script src="electricity-data.js?v=5"></script>
-<script src="textbook-data.js?v=5"></script>
-<script src="app.js?v=5"></script>
-<script src="textbook.js?v=5"></script>
-<script src="enhanced-sim.js?v=5"></script>
-<script src="circuit-sandbox.js?v=5"></script>
+<footer class="wrap footer">Educational teaching model aligned to AQA A-level Physics 7408 section 3.5 · Electricity Learning Lab v6 · Real Equipment Bench edition.</footer>
+<script src="electricity-data.js?v=6"></script>
+<script src="textbook-data.js?v=6"></script>
+<script src="app.js?v=6"></script>
+<script src="textbook.js?v=6"></script>
+<script src="enhanced-sim.js?v=6"></script>
+<script src="real-lab.js?v=6"></script>
+<script src="circuit-sandbox.js?v=6"></script>
+<script src="simulation-depth.js?v=6"></script>
 </body>
 </html>
