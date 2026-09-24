@@ -40,5 +40,8 @@ jobs:
           node --check question-automark-v4.js
           node --check integration-fixes-v5.js
           node --check extended-response-hub-v1.js
+          node --check content-depth-v8.js
+          node --check simulation-3d-v7.js
           node --check tests/browser-smoke-v2.mjs
           node --check tests/extended-response-smoke.mjs
+          node --check tests/three-d-smoke.mjs
