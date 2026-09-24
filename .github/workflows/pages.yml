@@ -41,9 +41,10 @@ jobs:
             'extended-response-hub-v1.js?v=1',
             'content-depth-v8.js?v=1',
             'simulation-3d-v7.js?v=1',
+            'simulation-3d-input-v8.js?v=1',
           ]
           inject='\n'+'\n'.join(f'<script src="{m}"></script>' for m in modules)+'\n'
-          if 'simulation-3d-v7.js' not in s:
+          if 'simulation-3d-input-v8.js' not in s:
               s=s.replace('</body>', inject+'</body>')
           p.write_text(s)
           PY
