@@ -39,9 +39,11 @@ jobs:
             'simulation-smooth-v4.js?v=1',
             'question-automark-v4.js?v=1',
             'integration-fixes-v5.js?v=1',
+            'content-depth-v8.js?v=1',
+            'simulation-3d-v7.js?v=1',
           ]
           inject='\n'+'\n'.join(f'<script src="{m}"></script>' for m in modules)+'\n'
-          if 'equation-operator-compat-v4.js' not in s:
+          if 'simulation-3d-v7.js' not in s:
               s=s.replace('</body>', inject+'</body>')
           p.write_text(s)
           PY
@@ -59,6 +61,10 @@ jobs:
         env:
           APP_URL: http://127.0.0.1:4173
         run: node tests/browser-smoke-v2.mjs
+      - name: Run 3D and content checks
+        env:
+          APP_URL: http://127.0.0.1:4173
+        run: node tests/three-d-smoke.mjs
       - name: Run extended-response checks
         env:
           APP_URL: http://127.0.0.1:4173
