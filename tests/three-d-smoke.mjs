@@ -9,6 +9,7 @@ try{
   await page.locator('[data-view="lab"]').click();await wait(180);
   assert(await page.locator('#sim3DCanvas').count()===1,'3D simulation canvas missing');
   assert(await page.locator('#sim3DToolbar').count()===1,'3D toolbar missing');
+  assert(await page.locator('[data-3d-nudge]').count()===4,'Accessible 3D orbit controls missing');
   const ids=await page.locator('.sim-tab').evaluateAll(xs=>xs.map(x=>x.dataset.sim));
   assert(ids.length===6,'Expected six 3D simulation scenes');
   for(const id of ids){
@@ -20,10 +21,12 @@ try{
     assert((await page.locator('#sim3DInfo').innerText()).length>50,`${id}: equipment inspection failed`);
   }
   const yaw0=Number(await page.locator('#sim3DCanvas').getAttribute('data-camera-yaw'));
-  const box=await page.locator('#sim3DCanvas').boundingBox();
-  await page.mouse.move(box.x+box.width*.45,box.y+box.height*.45);await page.mouse.down();await page.mouse.move(box.x+box.width*.62,box.y+box.height*.52,{steps:5});await page.mouse.up();await wait(60);
+  await page.locator('[data-3d-nudge="right"]').click();await wait(80);
   const yaw1=Number(await page.locator('#sim3DCanvas').getAttribute('data-camera-yaw'));
-  assert(Math.abs(yaw1-yaw0)>.05,'3D orbit interaction did not change camera');
+  assert(Math.abs(yaw1-yaw0)>.05,'3D orbit control did not change camera');
+  await page.locator('#sim3DCanvas').focus();await page.keyboard.press('ArrowLeft');await wait(60);
+  const yaw2=Number(await page.locator('#sim3DCanvas').getAttribute('data-camera-yaw'));
+  assert(Math.abs(yaw2-yaw1)>.05,'Keyboard 3D orbit did not change camera');
   await page.locator('[data-3d-action="explode"]').click();await wait(40);assert((await page.locator('#sim3DCanvas').getAttribute('data-exploded'))==='1','Exploded 3D view failed');
   await page.locator('[data-3d-action="reset"]').click();await wait(40);const resetYaw=Number(await page.locator('#sim3DCanvas').getAttribute('data-camera-yaw'));assert(Math.abs(resetYaw+0.4887)<.08,'3D reset view failed');
 
